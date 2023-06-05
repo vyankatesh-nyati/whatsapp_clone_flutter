@@ -41,7 +41,6 @@ class ChatScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: backgroundColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: tabColor,

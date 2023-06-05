@@ -118,7 +118,6 @@ class ChatDetailScreen extends StatelessWidget {
           )
         ],
       ),
-      backgroundColor: backgroundColor,
     );
   }
 }
