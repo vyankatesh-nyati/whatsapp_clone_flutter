@@ -72,8 +72,18 @@ const info = [
 ];
 
 const messages = [
-  {"isMe": false, "text": "Hey What is up with you!!", "time": "10:00 am"},
-  {"isMe": true, "text": "im fine,wbu?", "time": "11:00 am"},
+  {
+    "isMe": false,
+    "text":
+        "Hey What is up with you!! hello i am vyankatesh nyati who are you nice to meet you ",
+    "time": "10:00 am"
+  },
+  {
+    "isMe": true,
+    "text":
+        "im fine,wbu? Hey What is up with you!! hello i am vyankatesh nyati who are you nice to meet you ",
+    "time": "11:00 am"
+  },
   {"isMe": false, "text": "I am great man!", "time": "11:01 am"},
   {
     "isMe": false,
@@ -101,19 +111,9 @@ const messages = [
     "text": "Looks great to me!",
     "time": "11:15 am",
   },
-  
-
   {"isMe": false, "text": "Thanks bro!", "time": "11:17 am"},
-  {
-    "isMe": false,
-    "text": "Did you subscribe?",
-    "time": "11:16 am"
-  },
-  {
-    "isMe": true,
-    "text": "Yes, surely bro!",
-    "time": "11:17 am"
-  },
+  {"isMe": false, "text": "Did you subscribe?", "time": "11:16 am"},
+  {"isMe": true, "text": "Yes, surely bro!", "time": "11:17 am"},
   {
     "isMe": false,
     "text": "Cool, did you like the content?",
