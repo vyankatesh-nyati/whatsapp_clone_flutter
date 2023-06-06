@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/router.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/screens/welcome.dart';
 
@@ -18,7 +19,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         useMaterial3: true,
         scaffoldBackgroundColor: backgroundColor,
+        appBarTheme: const AppBarTheme().copyWith(
+          color: appBarColor,
+        ),
       ),
+      onGenerateRoute: (settings) => generateRoute(settings),
       home: const WelcomeScreen(),
     );
   }
