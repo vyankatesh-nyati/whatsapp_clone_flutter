@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/features/auth/screens/details.dart';
 import 'package:whatsapp_clone_flutter/router.dart';
-import 'package:whatsapp_clone_flutter/screens/app.dart';
-import 'package:whatsapp_clone_flutter/screens/welcome.dart';
+import 'package:whatsapp_clone_flutter/features/auth/screens/welcome.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const WelcomeScreen(),
+      home: const DetailsScreen(),
     );
   }
 }
