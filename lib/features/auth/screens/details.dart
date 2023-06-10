@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:whatsapp_clone_flutter/utils/utils.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -19,8 +20,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
     nameController.dispose();
   }
 
-  void pickImage() {
-    
+  void pickImage() async {
+    pickedImage = await pickImageFormGallery(context);
+    setState(() {});
   }
 
   @override
@@ -33,20 +35,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
               const SizedBox(height: 26),
               Stack(
                 children: [
-                  const CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 64,
-                    child: Icon(
-                      Icons.person,
-                      size: 80,
-                      color: Colors.grey,
-                    ),
-                  ),
+                  pickedImage == null
+                      ? const CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 64,
+                          child: Icon(
+                            Icons.person,
+                            size: 80,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 64,
+                          foregroundImage: FileImage(pickedImage!),
+                        ),
                   Positioned(
                     bottom: 0,
                     right: -5,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: pickImage,
                       icon: const Icon(
                         Icons.add_a_photo,
                         color: Colors.grey,
