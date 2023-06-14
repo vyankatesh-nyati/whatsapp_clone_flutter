@@ -4,7 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  static const routeName = "/details";
+  const DetailsScreen({
+    super.key,
+    required this.phoneNumber,
+  });
+
+  final String phoneNumber;
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();

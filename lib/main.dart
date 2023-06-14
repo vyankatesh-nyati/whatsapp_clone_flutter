@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/features/auth/screens/details.dart';
 import 'package:whatsapp_clone_flutter/router.dart';
-import 'package:whatsapp_clone_flutter/features/auth/screens/welcome.dart';
+import 'package:whatsapp_clone_flutter/screens/welcome.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'WhatsApp Clone',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         useMaterial3: true,
         scaffoldBackgroundColor: backgroundColor,
@@ -24,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const DetailsScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }
