@@ -8,10 +8,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case LoginScreen.routeName:
       return MaterialPageRoute(builder: (context) => const LoginScreen());
     case DetailsScreen.routeName:
-      final phoneNumber = settings.arguments as String;
-      print(phoneNumber);
+      final id = settings.arguments as String;
       return MaterialPageRoute(
-        builder: (context) => DetailsScreen(phoneNumber: phoneNumber),
+        builder: (context) => DetailsScreen(userId: id),
       );
     default:
       return MaterialPageRoute(

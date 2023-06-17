@@ -1,22 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 
-class DetailsScreen extends StatefulWidget {
+class DetailsScreen extends ConsumerStatefulWidget {
   static const routeName = "/details";
   const DetailsScreen({
     super.key,
-    required this.phoneNumber,
+    required this.userId,
   });
 
-  final String phoneNumber;
+  final String userId;
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
+  ConsumerState<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends ConsumerState<DetailsScreen> {
   final TextEditingController nameController = TextEditingController();
   File? pickedImage;
 
@@ -29,6 +31,28 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void pickImage() async {
     pickedImage = await pickImageFormGallery(context);
     setState(() {});
+  }
+
+  void onSubmitData() async {
+    String name = nameController.text;
+    if (name.isEmpty) {
+      showSnackbar(
+          context: context, content: "Please enter vlid non empty name");
+    } else {
+      String? token = await ref
+          .read(authControllerProvider)
+          .addUserDetails(context, widget.userId, pickedImage, name);
+
+      if (token == null) {
+        if (context.mounted) {
+          showSnackbar(
+              context: context,
+              content: "Something went wrong please try again later");
+        }
+      } else {
+        // save token in local shared preference
+      }
+    }
   }
 
   @override
@@ -82,7 +106,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: onSubmitData,
                     icon: const Icon(Icons.done),
                   )
                 ],

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+// import 'package:async/async.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,8 @@ import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:http/http.dart' as http;
 import 'package:whatsapp_clone_flutter/screens/details.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
+
+import 'package:http_parser/http_parser.dart';
 
 final authRepositoryProvider = Provider((ref) => AuthRepository());
 
@@ -37,7 +41,7 @@ class AuthRepository {
         if (context.mounted) {
           Navigator.of(context).pushNamed(
             DetailsScreen.routeName,
-            arguments: phoneNumber,
+            arguments: id,
           );
         }
       } else {
@@ -49,5 +53,53 @@ class AuthRepository {
         content: e.toString(),
       );
     }
+  }
+
+  Future<String?> addUserDetails(
+    BuildContext context,
+    String userId,
+    File? image,
+    String name,
+  ) async {
+    final url = Uri.parse('$serverUrl/signup/$userId');
+    String? token;
+    try {
+      final request = http.MultipartRequest("PATCH", url);
+      Map<String, String> headers = {"Content-type": "multipart/form-data"};
+
+      if (image != null) {
+        request.files.add(
+          http.MultipartFile(
+            'profilePic',
+            image.readAsBytes().asStream(),
+            image.lengthSync(),
+            filename: "$userId.jpeg",
+            contentType: MediaType('image', 'jpeg'),
+          ),
+        );
+      }
+      request.headers.addAll(headers);
+      request.fields.addAll({"name": name});
+      final streamedResponse = await request.send();
+
+      final response = await http.Response.fromStream(streamedResponse);
+
+      Map<String, dynamic> result = json.decode(response.body);
+      // print(result);
+      if (result["error"] != null) {
+        if (result["data"] != null) {
+          throw result["data"][0]["msg"];
+        } else {
+          throw result["error"];
+        }
+      }
+      token = result["token"];
+    } catch (err) {
+      showSnackbar(
+        context: context,
+        content: err.toString(),
+      );
+    }
+    return token;
   }
 }
