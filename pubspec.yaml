@@ -40,6 +40,7 @@ dependencies:
   http: ^1.0.0
   flutter_riverpod: ^2.3.6
   http_parser: ^4.0.2
+  shared_preferences: ^2.1.2
 
 dev_dependencies:
   flutter_test:

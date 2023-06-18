@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 80),
             const Center(
               child: Text(
                 "Welcome to WhatsApp Clone",
@@ -43,7 +43,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 50),
             SizedBox(
               width: size.width * 0.75,
               child: CustomButton(

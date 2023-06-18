@@ -43,14 +43,16 @@ class _DetailsScreenState extends ConsumerState<DetailsScreen> {
           .read(authControllerProvider)
           .addUserDetails(context, widget.userId, pickedImage, name);
 
-      if (token == null) {
-        if (context.mounted) {
+      if (context.mounted) {
+        if (token == null) {
           showSnackbar(
               context: context,
               content: "Something went wrong please try again later");
+        } else {
+          ref
+              .read(authControllerProvider)
+              .saveTokenToLocalStorage(context, token);
         }
-      } else {
-        // save token in local shared preference
       }
     }
   }

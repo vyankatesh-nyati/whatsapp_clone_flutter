@@ -4,8 +4,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:http/http.dart' as http;
+import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/details.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 
@@ -99,6 +101,26 @@ class AuthRepository {
         context: context,
         content: err.toString(),
       );
+    }
+    return token;
+  }
+
+  void saveTokenToLocalStorage(BuildContext context, String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool status = await prefs.setString("token", token);
+    if (status == false) {
+      if (context.mounted) {
+        showSnackbar(context: context, content: "Something went wrong");
+      }
+    }
+  }
+
+  Future<String?> getUserData(ProviderRef ref) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString("token");
+    if (token != null) {
+      ref.read(tokenProvider.notifier).addToken(token);
     }
     return token;
   }
