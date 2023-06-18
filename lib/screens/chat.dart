@@ -6,6 +6,7 @@ import 'package:whatsapp_clone_flutter/screens/chat_detail.dart';
 import 'package:whatsapp_clone_flutter/widgets/chat_list_item.dart';
 
 class ChatScreen extends StatelessWidget {
+  static const routeName = "/chat-screen";
   const ChatScreen({super.key});
 
   @override

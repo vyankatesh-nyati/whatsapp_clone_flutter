@@ -5,6 +5,7 @@ import 'package:whatsapp_clone_flutter/screens/chat.dart';
 import 'package:whatsapp_clone_flutter/screens/status.dart';
 
 class AppScreen extends StatelessWidget {
+  static const routeName = "/app-screen";
   const AppScreen({super.key});
 
   @override

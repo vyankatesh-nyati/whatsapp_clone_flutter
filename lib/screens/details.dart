@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
+import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 
 class DetailsScreen extends ConsumerStatefulWidget {
@@ -52,6 +53,8 @@ class _DetailsScreenState extends ConsumerState<DetailsScreen> {
           ref
               .read(authControllerProvider)
               .saveTokenToLocalStorage(context, token);
+          Navigator.pushNamedAndRemoveUntil(
+              context, AppScreen.routeName, (route) => false);
         }
       }
     }

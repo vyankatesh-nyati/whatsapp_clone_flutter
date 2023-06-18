@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/router.dart';
-import 'package:whatsapp_clone_flutter/screens/chat.dart';
+import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/screens/welcome.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/loader.dart';
@@ -38,7 +38,7 @@ class MyApp extends ConsumerWidget {
               if (data == null) {
                 return const WelcomeScreen();
               }
-              return const ChatScreen();
+              return const AppScreen();
             },
             error: (error, stackTrace) {
               return ErrorScreen(
