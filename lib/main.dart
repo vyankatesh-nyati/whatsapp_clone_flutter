@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
+import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/router.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/screens/welcome.dart';
@@ -16,12 +17,34 @@ void main() {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  bool _loading = false;
+
+  @override
+  void initState() {
+    restoreToken();
+    super.initState();
+  }
+
+  void restoreToken() async {
+    setState(() {
+      _loading = true;
+    });
+    await ref.read(authControllerProvider).getUserToken();
+    setState(() {
+      _loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'WhatsApp Clone',
       debugShowCheckedModeBanner: false,
@@ -33,20 +56,25 @@ class MyApp extends ConsumerWidget {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: ref.watch(userAuthProvider).when(
-            data: (data) {
-              if (data == null) {
-                return const WelcomeScreen();
-              }
-              return const AppScreen();
-            },
-            error: (error, stackTrace) {
-              return ErrorScreen(
-                error: error.toString(),
-              );
-            },
-            loading: () => const LoaderScreen(appBarText: "WhatsApp Clone"),
-          ),
+      home: _loading
+          ? const LoaderScreen(appBarText: "WhatsApp Clone")
+          : ref.watch(tokenProvider) == null
+              ? const WelcomeScreen()
+              : ref.watch(userAuthProvider).when(
+                    data: (data) {
+                      if (data == null) {
+                        return const WelcomeScreen();
+                      }
+                      return const AppScreen();
+                    },
+                    error: (error, stackTrace) {
+                      return ErrorScreen(
+                        error: error.toString(),
+                      );
+                    },
+                    loading: () =>
+                        const LoaderScreen(appBarText: "WhatsApp Clone"),
+                  ),
     );
   }
 }

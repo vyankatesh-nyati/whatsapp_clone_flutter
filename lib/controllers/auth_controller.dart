@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/models/user.dart';
 import 'package:whatsapp_clone_flutter/repository/auth_repository.dart';
 
 final authControllerProvider = Provider((ref) {
@@ -36,10 +36,18 @@ class AuthController {
   }
 
   void saveTokenToLocalStorage(BuildContext context, String token) {
-    return authRepository.saveTokenToLocalStorage(context, token);
+    return authRepository.saveTokenToLocalStorage(context, token, ref);
   }
 
-  Future<String?> getUserData() {
+  void removeTokenFromLocalStorage(BuildContext context) {
+    return authRepository.removeTokenFromLocalStorage(context, ref);
+  }
+
+  Future<String?> getUserToken() {
+    return authRepository.getTokenFromLocalStorage(ref);
+  }
+
+  Future<UserModel?> getUserData() {
     return authRepository.getUserData(ref);
   }
 }

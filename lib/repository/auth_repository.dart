@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:http/http.dart' as http;
+import 'package:whatsapp_clone_flutter/models/user.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/details.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
@@ -105,10 +106,12 @@ class AuthRepository {
     return token;
   }
 
-  void saveTokenToLocalStorage(BuildContext context, String token) async {
+  void saveTokenToLocalStorage(
+      BuildContext context, String token, ProviderRef ref) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool status = await prefs.setString("token", token);
+    ref.read(tokenProvider.notifier).addToken(token);
     if (status == false) {
       if (context.mounted) {
         showSnackbar(context: context, content: "Something went wrong");
@@ -116,12 +119,59 @@ class AuthRepository {
     }
   }
 
-  Future<String?> getUserData(ProviderRef ref) async {
+  void removeTokenFromLocalStorage(
+      BuildContext context, ProviderRef ref) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool status = await prefs.remove("token");
+    ref.read(tokenProvider.notifier).removeToken();
+    if (status == false) {
+      if (context.mounted) {
+        showSnackbar(context: context, content: "Something went wrong");
+      }
+    }
+  }
+
+  Future<String?> getTokenFromLocalStorage(ProviderRef ref) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString("token");
     if (token != null) {
       ref.read(tokenProvider.notifier).addToken(token);
     }
     return token;
+  }
+
+  Future<UserModel?> getUserData(ProviderRef ref) async {
+    final String? token = ref.watch(tokenProvider);
+    // print("it is working");
+    UserModel? user;
+    if (token == null) {
+      return null;
+    } else {
+      try {
+        final url = Uri.parse('$serverUrl/user-details');
+        final response = await http.get(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+          },
+        );
+        Map<String, dynamic> result = json.decode(response.body);
+        // print(result);
+        if (result["error"] != null) {
+          return null;
+        }
+
+        if (result["data"] != null) {
+          user = UserModel.fromMap(result["data"]);
+        } else {
+          return null;
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+    return user;
   }
 }
