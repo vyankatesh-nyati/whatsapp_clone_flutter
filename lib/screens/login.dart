@@ -40,7 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     String phoneNumber = phoneEditingController.text.trim();
 
     if (phoneNumber.isNotEmpty && _country != null) {
-      phoneNumber = "+${_country!.phoneCode}$phoneNumber";
+      phoneNumber = "+${_country!.phoneCode}-$phoneNumber";
 
       ref
           .read(authControllerProvider)

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/screens/calls.dart';
 import 'package:whatsapp_clone_flutter/screens/chat.dart';
 import 'package:whatsapp_clone_flutter/screens/status.dart';
@@ -9,10 +8,6 @@ import 'package:whatsapp_clone_flutter/screens/status.dart';
 class AppScreen extends ConsumerWidget {
   static const routeName = "/app-screen";
   const AppScreen({super.key});
-
-  void onLogout(WidgetRef ref, BuildContext context) {
-    ref.read(authControllerProvider).removeTokenFromLocalStorage(context);
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,9 +30,7 @@ class AppScreen extends ConsumerWidget {
               color: appBarTextColor,
             ),
             IconButton(
-              onPressed: () {
-                onLogout(ref, context);
-              },
+              onPressed: () {},
               icon: const Icon(Icons.more_vert),
               color: Colors.grey.shade400,
             )
