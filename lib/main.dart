@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
+import 'package:whatsapp_clone_flutter/config/server.dart';
+import 'package:whatsapp_clone_flutter/screens/auth/controller/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/router.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
-import 'package:whatsapp_clone_flutter/screens/welcome.dart';
+import 'package:whatsapp_clone_flutter/screens/landing/welcome.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/loader.dart';
 
@@ -30,7 +32,19 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     restoreToken();
+    connectToSocket();
     super.initState();
+  }
+
+  void connectToSocket() {
+    IO.Socket socket = IO.io(serverBaseUrl, <String, dynamic>{
+      "transports": ["websocket"],
+    });
+    socket.onConnect((data) => print("Server connected"));
+    print(socket.connected);
+    socket.on("testing", (data) {
+      print(data);
+    });
   }
 
   void restoreToken() async {

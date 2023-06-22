@@ -2,7 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
+import 'package:whatsapp_clone_flutter/screens/auth/controller/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/custom_button.dart';
 
@@ -40,7 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     String phoneNumber = phoneEditingController.text.trim();
 
     if (phoneNumber.isNotEmpty && _country != null) {
-      phoneNumber = "+${_country!.phoneCode}-$phoneNumber";
+      phoneNumber = "+${_country!.phoneCode}$phoneNumber";
 
       ref
           .read(authControllerProvider)

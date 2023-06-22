@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatsapp_clone_flutter/controllers/auth_controller.dart';
+import 'package:whatsapp_clone_flutter/screens/auth/controller/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 

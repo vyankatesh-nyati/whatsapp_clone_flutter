@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/dummy_data/data.dart';
-import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/widgets/text_message.dart';
 
 class ChatDetailScreen extends StatelessWidget {
   const ChatDetailScreen({
     super.key,
-    required this.userData,
+    required this.name,
+    required this.uid,
   });
 
-  final ChatListItemModel userData;
+  final String name;
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ChatDetailScreen extends StatelessWidget {
         title: Row(
           children: [
             Text(
-              userData.name,
+              name,
               style: TextStyle(
                 color: appBarTextColor,
                 fontWeight: FontWeight.bold,

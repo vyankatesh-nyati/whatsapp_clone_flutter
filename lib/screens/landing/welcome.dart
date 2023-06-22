@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/screens/login.dart';
+import 'package:whatsapp_clone_flutter/screens/auth/login.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/custom_button.dart';
 
 class WelcomeScreen extends StatelessWidget {

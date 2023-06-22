@@ -21,13 +21,9 @@ class ChatScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ChatDetailScreen(
-                    userData: ChatListItemModel(
-                      name: info[index]['name']!,
-                      message: info[index]['message']!,
-                      time: info[index]['time']!,
-                      profilePic: info[index]['profilePic']!,
-                    ),
+                  builder: (context) => const ChatDetailScreen(
+                    name: "Vyankatesh",
+                    uid: "testuid",
                   ),
                 ),
               );

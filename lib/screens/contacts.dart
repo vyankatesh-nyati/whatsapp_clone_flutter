@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/controllers/contact_controller.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
@@ -6,6 +7,12 @@ import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
 class ContactScreen extends ConsumerWidget {
   static const routeName = "/contact";
   const ContactScreen({super.key});
+
+  void onSelectContact(BuildContext context, Contact contact, WidgetRef ref) {
+    ref
+        .read(contactControllerProvider)
+        .chatWithSelectedContact(context, contact);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,7 +41,9 @@ class ContactScreen extends ConsumerWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () {},
+                onTap: () {
+                  onSelectContact(context, data[index], ref);
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
                   child: ListTile(
