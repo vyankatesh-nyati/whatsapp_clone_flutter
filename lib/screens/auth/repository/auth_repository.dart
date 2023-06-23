@@ -9,6 +9,7 @@ import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:http/http.dart' as http;
 import 'package:whatsapp_clone_flutter/models/user.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
+import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/details.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 
@@ -149,7 +150,7 @@ class AuthRepository {
       return null;
     } else {
       try {
-        final url = Uri.parse('$serverUrl/user-details');
+        final url = Uri.parse('$serverUrl/token-validation');
         final response = await http.get(
           url,
           headers: {
@@ -165,6 +166,7 @@ class AuthRepository {
 
         if (result["data"] != null) {
           user = UserModel.fromMap(result["data"]);
+          ref.read(userProvider.notifier).addUser(user);
         } else {
           return null;
         }

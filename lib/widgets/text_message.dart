@@ -8,7 +8,7 @@ class TextMessage extends StatelessWidget {
     required this.messageData,
   });
 
-  final Message messageData;
+  final MessageModel messageData;
 
   @override
   Widget build(BuildContext context) {

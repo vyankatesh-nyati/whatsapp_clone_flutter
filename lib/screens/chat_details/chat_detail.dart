@@ -1,32 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/dummy_data/data.dart';
-import 'package:whatsapp_clone_flutter/models/message.dart';
+import 'package:whatsapp_clone_flutter/models/chat_details.dart';
+import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/widgets/text_message.dart';
 
-class ChatDetailScreen extends StatelessWidget {
+class ChatDetailScreen extends ConsumerWidget {
+  static const routeName = "/chat-details";
+
   const ChatDetailScreen({
     super.key,
-    required this.name,
     required this.uid,
   });
 
-  final String name;
   final String uid;
 
+  void addDetails(WidgetRef ref) {
+    ref.read(chatDetailsProvider.notifier).updateChatDetails(ChatDetailsModel(
+          id: "id",
+          name: "name",
+          profileUrl: "profileUrl",
+          isOnline: true,
+          chatList: [],
+        ));
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ChatDetailsModel chatDetails = ref.watch(chatDetailsProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              name,
-              style: TextStyle(
-                color: appBarTextColor,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(chatDetails.profileUrl),
               ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  chatDetails.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                Text(
+                  chatDetails.isOnline ? "online" : "offline",
+                  style: TextStyle(
+                    color: appBarTextColor,
+                    fontSize: 15,
+                  ),
+                )
+              ],
             ),
           ],
         ),
@@ -37,7 +69,9 @@ class ChatDetailScreen extends StatelessWidget {
             color: appBarTextColor,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              addDetails(ref);
+            },
             icon: const Icon(Icons.call),
             color: appBarTextColor,
           ),
@@ -55,13 +89,9 @@ class ChatDetailScreen extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 12),
-              itemCount: messages.length,
+              itemCount: chatDetails.chatList.length,
               itemBuilder: (context, index) => TextMessage(
-                messageData: Message(
-                  isMe: messages[index]['isMe'] as bool,
-                  textMessage: messages[index]['text'] as String,
-                  time: messages[index]['time'] as String,
-                ),
+                messageData: chatDetails.chatList[index],
               ),
             ),
           ),

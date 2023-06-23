@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/dummy_data/data.dart';
 import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
-import 'package:whatsapp_clone_flutter/screens/chat_detail.dart';
-import 'package:whatsapp_clone_flutter/screens/contacts.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/chat_detail.dart';
+import 'package:whatsapp_clone_flutter/screens/contacts/contacts.dart';
 import 'package:whatsapp_clone_flutter/widgets/chat_list_item.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -22,7 +22,6 @@ class ChatScreen extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const ChatDetailScreen(
-                    name: "Vyankatesh",
                     uid: "testuid",
                   ),
                 ),

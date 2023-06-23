@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:whatsapp_clone_flutter/repository/contact_repository.dart';
+import 'package:whatsapp_clone_flutter/screens/contacts/repository/contact_repository.dart';
 
 final conatctListProvider = FutureProvider((ref) {
   final contactRepository = ref.watch(contactRepositoryProvider);

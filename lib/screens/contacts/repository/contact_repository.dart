@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:http/http.dart' as http;
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/chat_detail.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
 import 'package:whatsapp_clone_flutter/utils/utils.dart';
 
 final contactRepositoryProvider = Provider((ref) => ContactRepository());
@@ -26,7 +28,6 @@ final class ContactRepository {
 
   void chatWithSelectedContact(
       BuildContext context, ProviderRef ref, Contact contact) async {
-        
     final url = Uri.parse('$serverUrl//contact/is-exists');
     final token = ref.watch(tokenProvider);
     try {
@@ -46,10 +47,21 @@ final class ContactRepository {
         throw result["error"];
       }
 
-      if (result["isFound"]) {
-        print("okay");
-      } else {
-        if (context.mounted) {
+      if (context.mounted) {
+        if (result["isFound"] && result["data"] != null) {
+          // print(result["data"]["_id"]);
+          await ref
+              .read(chatDetailsControllerProvider)
+              .loadChatDetails(id: result["data"]["_id"], context: context);
+          if (context.mounted) {
+            Navigator.of(context).popAndPushNamed(
+              ChatDetailScreen.routeName,
+              arguments: {
+                "id": result["data"]["_id"],
+              },
+            );
+          }
+        } else {
           showSnackbar(
               context: context, content: "Contact is not on a whatsApp clone");
         }

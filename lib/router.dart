@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
-import 'package:whatsapp_clone_flutter/screens/contacts.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/chat_detail.dart';
+import 'package:whatsapp_clone_flutter/screens/contacts/contacts.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/details.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/login.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
@@ -23,6 +24,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case ContactScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const ContactScreen(),
+      );
+    case ChatDetailScreen.routeName:
+      final arguments = settings.arguments as Map<String, dynamic>;
+      return MaterialPageRoute(
+        builder: (context) => ChatDetailScreen(
+          uid: arguments["id"]!,
+        ),
       );
     default:
       return MaterialPageRoute(

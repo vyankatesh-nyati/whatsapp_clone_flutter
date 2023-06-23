@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/screens/calls.dart';
-import 'package:whatsapp_clone_flutter/screens/chat.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_list/chat.dart';
 import 'package:whatsapp_clone_flutter/screens/status.dart';
 
 class AppScreen extends ConsumerWidget {
