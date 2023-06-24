@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/calls.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_list/chat.dart';
 import 'package:whatsapp_clone_flutter/screens/status.dart';
+import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
 
 class AppScreen extends ConsumerWidget {
   static const routeName = "/app-screen";
@@ -11,6 +13,8 @@ class AppScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(userProvider)!.id;
+    ref.read(socketsProvider).createRoom(userId);
     return DefaultTabController(
       length: 3,
       child: Scaffold(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/chat_details.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/widgets/text_message.dart';
@@ -28,16 +29,19 @@ class ChatDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ChatDetailsModel chatDetails = ref.watch(chatDetailsProvider);
+    print(chatDetails.profileUrl);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
+            const Padding(
+              padding: EdgeInsets.only(right: 8),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(chatDetails.profileUrl),
+                foregroundImage: NetworkImage(
+                    '$serverBaseUrl/images/profiles/tumor (1112).jpg'),
+                // maxRadius: 20,
               ),
             ),
             Column(
