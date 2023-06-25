@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatsapp_clone_flutter/models/message.dart';
@@ -21,13 +20,26 @@ class SocketMethods {
     });
   }
 
-  sendMessage(MessageModel message) {
+  sendMessage({
+    required String senderId,
+    required String receiverId,
+    required String text,
+    required String timesent,
+    required bool isSeen,
+  }) {
     _socketClient.emit("send-message", {
-      "senderId": message.senderId,
-      "receiverId": message.receiverId,
-      "text": message.text,
-      "timesent": message.timesent,
-      "isSeen": message.isSeen,
+      "senderId": senderId,
+      "receiverId": receiverId,
+      "text": text,
+      "timesent": timesent,
+      "isSeen": isSeen,
+    });
+  }
+
+  sendMessageWithId() {
+    _socketClient.on("send-message-received", (data) {
+      final message = MessageModel.fromMap(data);
+      ref.read(chatDetailsProvider.notifier).addMessage(message);
     });
   }
 
@@ -36,9 +48,9 @@ class SocketMethods {
       // print(data);
       final id = ref.read(chatDetailsProvider).id;
       final message = MessageModel.fromMap(data);
-      // if (id == message.senderId) {
-      ref.read(chatDetailsProvider.notifier).addMessage(message);
-      // }
+      if (id == message.senderId) {
+        ref.read(chatDetailsProvider.notifier).addMessage(message);
+      }
     });
   }
 }

@@ -25,6 +25,17 @@ class ChatDetailsNotifier extends StateNotifier<ChatDetailsModel> {
       chatList: [...state.chatList, message],
     );
   }
+
+  bool resetChatDetails() {
+    state = ChatDetailsModel(
+      id: '',
+      name: '',
+      profileUrl: '',
+      isOnline: false,
+      chatList: [],
+    );
+    return true;
+  }
 }
 
 final chatDetailsProvider =

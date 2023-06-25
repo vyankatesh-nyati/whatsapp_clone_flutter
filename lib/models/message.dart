@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 class MessageModel {
-  // final String id;
+  final String id;
   final String senderId;
   final String receiverId;
   final String text;
@@ -10,7 +10,7 @@ class MessageModel {
   final bool isSeen;
 
   MessageModel({
-    // required this.id,
+    required this.id,
     required this.senderId,
     required this.receiverId,
     required this.text,
@@ -20,7 +20,7 @@ class MessageModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      // 'id': id,
+      'id': id,
       'senderId': senderId,
       'receiverId': receiverId,
       'text': text,
@@ -31,7 +31,7 @@ class MessageModel {
 
   factory MessageModel.fromMap(Map<String, dynamic> map) {
     return MessageModel(
-      // id: map['_id'] as String,
+      id: map['_id'] as String,
       senderId: map['senderId'] as String,
       receiverId: map['receiverId'] as String,
       text: map['text'] as String,

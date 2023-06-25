@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
@@ -32,18 +31,15 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
     final String receiverId = ref.read(chatDetailsProvider).id;
     final timesent = DateFormat.Hm().format(DateTime.now());
 
-    final MessageModel message = MessageModel(
-      // id: "tests",
-      senderId: senderId,
-      receiverId: receiverId,
-      text: text,
-      timesent: timesent,
-      isSeen: true,
-    );
+    ref.read(socketsProvider).sendMessage(
+          isSeen: false,
+          receiverId: receiverId,
+          senderId: senderId,
+          text: text,
+          timesent: timesent,
+        );
 
-    ref.read(socketsProvider).sendMessage(message);
-
-    ref.read(chatDetailsProvider.notifier).addMessage(message);
+    // ref.read(chatDetailsProvider.notifier).addMessage(message);
 
     _messageEdiitingController.clear();
     setState(() {

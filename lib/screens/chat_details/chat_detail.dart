@@ -28,6 +28,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   void initState() {
     super.initState();
     ref.read(socketsProvider).recievedMessage();
+    ref.read(socketsProvider).sendMessageWithId();
     loadData();
   }
 
@@ -108,19 +109,24 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         centerTitle: false,
         backgroundColor: appBarColor,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 12),
-              itemCount: chatDetails.chatList.length,
-              itemBuilder: (context, index) => TextMessage(
-                messageData: chatDetails.chatList[index],
+      body: WillPopScope(
+        onWillPop: () async {
+          return ref.read(chatDetailsProvider.notifier).resetChatDetails();
+        },
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.only(top: 12),
+                itemCount: chatDetails.chatList.length,
+                itemBuilder: (context, index) => TextMessage(
+                  messageData: chatDetails.chatList[index],
+                ),
               ),
             ),
-          ),
-          const BottomMessageSheet(),
-        ],
+            const BottomMessageSheet(),
+          ],
+        ),
       ),
     );
   }
