@@ -14,10 +14,10 @@ class ChatListItem extends StatelessWidget {
     return ListTile(
       title: Text(itemData.name),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(itemData.profilePic),
+        backgroundImage: NetworkImage(itemData.profileUrl),
       ),
-      subtitle: Text(itemData.message),
-      trailing: Text(itemData.time),
+      subtitle: Text(itemData.text),
+      trailing: Text(itemData.timesent),
     );
   }
 }
