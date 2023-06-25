@@ -4,9 +4,12 @@ import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/chat_details.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
-import 'package:whatsapp_clone_flutter/widgets/text_message.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/bottom_message_sheet.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/text_message.dart';
+import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
 
-class ChatDetailScreen extends ConsumerWidget {
+class ChatDetailScreen extends ConsumerStatefulWidget {
   static const routeName = "/chat-details";
 
   const ChatDetailScreen({
@@ -15,6 +18,24 @@ class ChatDetailScreen extends ConsumerWidget {
   });
 
   final String uid;
+
+  @override
+  ConsumerState<ChatDetailScreen> createState() => _ChatDetailScreenState();
+}
+
+class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(socketsProvider).recievedMessage();
+    loadData();
+  }
+
+  void loadData() async {
+    await ref
+        .read(chatDetailsControllerProvider)
+        .loadChatDetails(id: widget.uid, context: context);
+  }
 
   void addDetails(WidgetRef ref) {
     ref.read(chatDetailsProvider.notifier).updateChatDetails(ChatDetailsModel(
@@ -27,9 +48,8 @@ class ChatDetailScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final ChatDetailsModel chatDetails = ref.watch(chatDetailsProvider);
-    print(chatDetails.profileUrl);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -99,58 +119,7 @@ class ChatDetailScreen extends ConsumerWidget {
               ),
             ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  maxLines: 1,
-                  decoration: InputDecoration(
-                    hintText: "Message",
-                    filled: true,
-                    fillColor: mobileChatBoxColor,
-                    prefixIcon: Icon(
-                      Icons.emoji_emotions,
-                      color: appBarTextColor,
-                    ),
-                    suffixIcon: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.attach_file,
-                          color: appBarTextColor,
-                        ),
-                        const SizedBox(width: 10),
-                        Icon(
-                          Icons.currency_rupee_outlined,
-                          color: appBarTextColor,
-                        ),
-                        const SizedBox(width: 10),
-                        Icon(
-                          Icons.camera_alt,
-                          color: appBarTextColor,
-                        ),
-                        const SizedBox(width: 20),
-                      ],
-                    ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
-                      ),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-              ),
-              CircleAvatar(
-                backgroundColor: tabColor,
-                radius: 28,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.mic),
-                ),
-              ),
-            ],
-          )
+          const BottomMessageSheet(),
         ],
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/models/message.dart';
+import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 
-class TextMessage extends StatelessWidget {
+class TextMessage extends ConsumerWidget {
   const TextMessage({
     super.key,
     required this.messageData,
@@ -11,10 +13,12 @@ class TextMessage extends StatelessWidget {
   final MessageModel messageData;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myId = ref.watch(userProvider)!.id;
     return Align(
-      alignment:
-          messageData.isMe ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: myId == messageData.senderId
+          ? Alignment.centerRight
+          : Alignment.centerLeft,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width - 45,
@@ -25,7 +29,8 @@ class TextMessage extends StatelessWidget {
             vertical: 6,
             horizontal: 10,
           ),
-          color: messageData.isMe ? messageColor : senderMessageColor,
+          color:
+              myId == messageData.senderId ? messageColor : senderMessageColor,
           child: Stack(
             children: [
               Padding(
@@ -36,7 +41,7 @@ class TextMessage extends StatelessWidget {
                   bottom: 22,
                 ),
                 child: Text(
-                  messageData.textMessage,
+                  messageData.text,
                   style: const TextStyle(
                     fontSize: 16,
                   ),
@@ -48,16 +53,18 @@ class TextMessage extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      messageData.time,
+                      messageData.timesent,
                       style: const TextStyle(
                         fontSize: 12,
                       ),
                     ),
-                    if (messageData.isMe) const SizedBox(width: 4),
-                    if (messageData.isMe)
-                      const Icon(
+                    if (myId == messageData.senderId) const SizedBox(width: 4),
+                    if (myId == messageData.senderId)
+                      Icon(
                         Icons.done_all,
                         size: 16,
+                        color:
+                            messageData.isSeen ? Colors.blue[300] : Colors.grey,
                       )
                   ],
                 ),
