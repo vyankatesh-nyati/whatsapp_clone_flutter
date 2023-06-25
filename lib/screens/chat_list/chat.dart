@@ -6,6 +6,7 @@ import 'package:whatsapp_clone_flutter/providers/chat_list_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/chat_detail.dart';
 import 'package:whatsapp_clone_flutter/screens/contacts/contacts.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_list/widgets/chat_list_item.dart';
+import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   static const routeName = "/chat-screen";
@@ -16,6 +17,14 @@ class ChatScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    ref.read(socketsProvider).recievedMessage();
+    ref.read(socketsProvider).sendMessageWithId();
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<ChatListItemModel> chatList = ref.watch(chatListProvider);

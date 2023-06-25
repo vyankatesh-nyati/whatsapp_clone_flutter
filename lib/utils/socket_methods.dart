@@ -1,7 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/config/server.dart';
+import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
+import 'package:whatsapp_clone_flutter/providers/chat_list_provider.dart';
 import 'package:whatsapp_clone_flutter/utils/socket.dart';
 
 final socketsProvider = Provider((ref) => SocketMethods(ref: ref));
@@ -34,6 +37,14 @@ class SocketMethods {
       "timesent": timesent,
       "isSeen": isSeen,
     });
+    final recieverDetails = ref.read(chatDetailsProvider);
+    ref.read(chatListProvider.notifier).updateChatList(ChatListItemModel(
+          userId: recieverDetails.id,
+          name: recieverDetails.name,
+          profileUrl: '$serverBaseUrl/images/profiles/tumor (1112).jpg',
+          text: text,
+          timesent: timesent,
+        ));
   }
 
   sendMessageWithId() {

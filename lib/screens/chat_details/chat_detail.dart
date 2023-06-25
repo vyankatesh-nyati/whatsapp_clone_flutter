@@ -7,7 +7,6 @@ import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/bottom_message_sheet.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/text_message.dart';
-import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
 
 class ChatDetailScreen extends ConsumerStatefulWidget {
   static const routeName = "/chat-details";
@@ -27,8 +26,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(socketsProvider).recievedMessage();
-    ref.read(socketsProvider).sendMessageWithId();
+    // ref.read(socketsProvider).recievedMessage();
+    // ref.read(socketsProvider).sendMessageWithId();
     loadData();
   }
 
