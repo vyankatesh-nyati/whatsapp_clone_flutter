@@ -13,8 +13,21 @@ class AppScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userId = ref.watch(userProvider)!.id;
-    ref.read(socketsProvider).createRoom(userId);
+    String? userId;
+    Widget bodyContent = const Center(
+      child: CircularProgressIndicator(),
+    );
+    if (ref.watch(userProvider) != null) {
+      userId = ref.watch(userProvider)!.id;
+      ref.read(socketsProvider).createRoom(userId);
+      bodyContent = const TabBarView(
+        children: [
+          ChatScreen(),
+          StatusScreen(),
+          CallsScreen(),
+        ],
+      );
+    }
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -62,13 +75,7 @@ class AppScreen extends ConsumerWidget {
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [
-            ChatScreen(),
-            StatusScreen(),
-            CallsScreen(),
-          ],
-        ),
+        body: bodyContent,
         backgroundColor: backgroundColor,
       ),
     );
