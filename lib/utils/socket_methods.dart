@@ -71,4 +71,13 @@ class SocketMethods {
           ));
     });
   }
+
+  statusChange() {
+    _socketClient.on("status-change", (data) {
+      final chatDetails = ref.read(chatDetailsProvider);
+      if (data["userId"] == chatDetails.id) {
+        ref.read(chatDetailsProvider.notifier).changeStatus(data["isOnline"]);
+      }
+    });
+  }
 }

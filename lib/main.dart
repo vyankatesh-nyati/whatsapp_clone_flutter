@@ -33,6 +33,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     restoreToken();
     ref.read(socketsProvider).recievedMessage();
     ref.read(socketsProvider).sendMessageWithId();
+    ref.read(socketsProvider).statusChange();
     super.initState();
   }
 
