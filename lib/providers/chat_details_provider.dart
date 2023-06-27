@@ -26,6 +26,16 @@ class ChatDetailsNotifier extends StateNotifier<ChatDetailsModel> {
     );
   }
 
+  void changeStatus(bool isOnline) {
+    state = ChatDetailsModel(
+      id: state.id,
+      name: state.name,
+      profileUrl: state.profileUrl,
+      isOnline: isOnline,
+      chatList: state.chatList,
+    );
+  }
+
   bool resetChatDetails() {
     state = ChatDetailsModel(
       id: '',

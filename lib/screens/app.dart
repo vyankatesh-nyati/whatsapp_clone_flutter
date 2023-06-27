@@ -3,21 +3,55 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
+import 'package:whatsapp_clone_flutter/screens/auth/controller/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/screens/calls.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_list/chat.dart';
 import 'package:whatsapp_clone_flutter/screens/status.dart';
 import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
 
-class AppScreen extends ConsumerWidget {
+class AppScreen extends ConsumerStatefulWidget {
   static const routeName = "/app-screen";
   const AppScreen({super.key});
+
+  @override
+  ConsumerState<AppScreen> createState() => _AppScreenState();
+}
+
+class _AppScreenState extends ConsumerState<AppScreen>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        ref.read(authControllerProvider).changeStatus(true);
+        break;
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+        ref.read(authControllerProvider).changeStatus(false);
+        break;
+    }
+  }
 
   void logout(WidgetRef ref) {
     ref.read(tokenProvider.notifier).removeToken();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     String? userId;
     Widget bodyContent = const Center(
       child: CircularProgressIndicator(),

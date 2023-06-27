@@ -50,4 +50,8 @@ class AuthController {
   Future<UserModel?> getUserData() {
     return authRepository.getUserData(ref);
   }
+
+  void changeStatus(bool isOnline) {
+    authRepository.changeStatus(ref, isOnline);
+  }
 }

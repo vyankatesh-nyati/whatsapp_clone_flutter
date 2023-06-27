@@ -143,7 +143,7 @@ class AuthRepository {
   }
 
   Future<UserModel?> getUserData(ProviderRef ref) async {
-    final String? token = ref.watch(tokenProvider);
+    final String? token = ref.read(tokenProvider);
     // print("it is working");
     UserModel? user;
     if (token == null) {
@@ -175,5 +175,29 @@ class AuthRepository {
       }
     }
     return user;
+  }
+
+  void changeStatus(ProviderRef ref, bool isOnline) async {
+    final url = Uri.parse('$serverUrl/change-status');
+    final token = ref.read(tokenProvider);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token!,
+        },
+        body: json.encode({
+          "isOnline": isOnline,
+        }),
+      );
+      Map<String, dynamic> result = json.decode(response.body);
+      if (result["error"] != null) {
+        throw result["error"];
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
