@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/screens/contacts/controller/contact_controller.dart';
-import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
+import 'package:whatsapp_clone_flutter/common/widgets/error.dart';
 
 class ContactScreen extends ConsumerWidget {
   static const routeName = "/contact";

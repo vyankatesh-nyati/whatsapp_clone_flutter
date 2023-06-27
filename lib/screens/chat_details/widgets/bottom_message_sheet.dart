@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
-import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
+import 'package:whatsapp_clone_flutter/common/sockets/socket_methods.dart';
 
 class BottomMessageSheet extends ConsumerStatefulWidget {
   const BottomMessageSheet({super.key});

@@ -4,7 +4,7 @@ import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_list_provider.dart';
-import 'package:whatsapp_clone_flutter/utils/socket.dart';
+import 'package:whatsapp_clone_flutter/common/sockets/socket.dart';
 
 final socketsProvider = Provider((ref) => SocketMethods(ref: ref));
 

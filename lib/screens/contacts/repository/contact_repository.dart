@@ -7,7 +7,7 @@ import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:http/http.dart' as http;
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/chat_detail.dart';
-import 'package:whatsapp_clone_flutter/utils/utils.dart';
+import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 
 final contactRepositoryProvider = Provider((ref) => ContactRepository());
 

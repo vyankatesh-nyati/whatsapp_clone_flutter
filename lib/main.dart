@@ -6,9 +6,9 @@ import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/router.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/screens/landing/welcome.dart';
-import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
-import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
-import 'package:whatsapp_clone_flutter/widgets/common/loader.dart';
+import 'package:whatsapp_clone_flutter/common/sockets/socket_methods.dart';
+import 'package:whatsapp_clone_flutter/common/widgets/error.dart';
+import 'package:whatsapp_clone_flutter/common/widgets/loader.dart';
 
 void main() {
   runApp(

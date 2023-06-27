@@ -4,7 +4,7 @@ import 'package:whatsapp_clone_flutter/screens/chat_details/chat_detail.dart';
 import 'package:whatsapp_clone_flutter/screens/contacts/contacts.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/details.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/login.dart';
-import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
+import 'package:whatsapp_clone_flutter/common/widgets/error.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/controller/auth_controller.dart';
-import 'package:whatsapp_clone_flutter/utils/utils.dart';
-import 'package:whatsapp_clone_flutter/widgets/common/custom_button.dart';
+import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
+import 'package:whatsapp_clone_flutter/common/widgets/custom_button.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   static const routeName = "/login";

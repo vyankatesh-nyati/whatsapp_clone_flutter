@@ -7,7 +7,7 @@ import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_list_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
-import 'package:whatsapp_clone_flutter/utils/utils.dart';
+import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 
 final chatListRepositoryProvider = Provider((ref) => ChatListRepository());
 
