@@ -62,6 +62,14 @@ class SocketMethods {
       if (id == message.senderId) {
         ref.read(chatDetailsProvider.notifier).addMessage(message);
       }
+      print("lest check");
+      ref.read(chatListProvider.notifier).updateChatList(ChatListItemModel(
+            userId: message.senderId,
+            name: data["name"],
+            profileUrl: '$serverBaseUrl/images/profiles/tumor (1112).jpg',
+            text: message.text,
+            timesent: message.timesent,
+          ));
     });
   }
 }

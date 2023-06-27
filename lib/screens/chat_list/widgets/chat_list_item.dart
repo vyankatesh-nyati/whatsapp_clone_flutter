@@ -13,8 +13,9 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(itemData.name),
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(itemData.profileUrl),
+      leading: const CircleAvatar(
+        // backgroundImage: NetworkImage(itemData.profileUrl),
+        child: Icon(Icons.person),
       ),
       subtitle: Text(itemData.text),
       trailing: Text(itemData.timesent),

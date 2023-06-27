@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/calls.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_list/chat.dart';
@@ -10,6 +11,10 @@ import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
 class AppScreen extends ConsumerWidget {
   static const routeName = "/app-screen";
   const AppScreen({super.key});
+
+  void logout(WidgetRef ref) {
+    ref.read(tokenProvider.notifier).removeToken();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,7 +52,9 @@ class AppScreen extends ConsumerWidget {
               color: appBarTextColor,
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                logout(ref);
+              },
               icon: const Icon(Icons.more_vert),
               color: Colors.grey.shade400,
             )
