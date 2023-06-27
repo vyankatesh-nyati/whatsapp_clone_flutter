@@ -6,6 +6,7 @@ import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/router.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/screens/landing/welcome.dart';
+import 'package:whatsapp_clone_flutter/utils/socket_methods.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/error.dart';
 import 'package:whatsapp_clone_flutter/widgets/common/loader.dart';
 
@@ -30,6 +31,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     restoreToken();
+    ref.read(socketsProvider).recievedMessage();
+    ref.read(socketsProvider).sendMessageWithId();
     super.initState();
   }
 
