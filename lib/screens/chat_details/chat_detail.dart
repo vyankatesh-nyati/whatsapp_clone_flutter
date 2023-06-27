@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
@@ -23,12 +24,20 @@ class ChatDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
+  final ScrollController messageController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     // ref.read(socketsProvider).recievedMessage();
     // ref.read(socketsProvider).sendMessageWithId();
     loadData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    messageController.dispose();
   }
 
   void loadData() async {
@@ -50,6 +59,20 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final ChatDetailsModel chatDetails = ref.watch(chatDetailsProvider);
+    Widget bodyContent = const Center(child: CircularProgressIndicator());
+    if (chatDetails.id != '') {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        messageController.jumpTo(messageController.position.maxScrollExtent);
+      });
+      bodyContent = ListView.builder(
+        controller: messageController,
+        padding: const EdgeInsets.only(top: 12),
+        itemCount: chatDetails.chatList.length,
+        itemBuilder: (context, index) => TextMessage(
+          messageData: chatDetails.chatList[index],
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -115,13 +138,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 12),
-                itemCount: chatDetails.chatList.length,
-                itemBuilder: (context, index) => TextMessage(
-                  messageData: chatDetails.chatList[index],
-                ),
-              ),
+              child: bodyContent,
             ),
             const BottomMessageSheet(),
           ],
