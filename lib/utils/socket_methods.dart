@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 
 import 'package:whatsapp_clone_flutter/models/message.dart';

@@ -81,7 +81,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: CircleAvatar(
-                foregroundImage: NetworkImage(chatDetails.profileUrl),
+                foregroundImage: chatDetails.profileUrl != ''
+                    ? NetworkImage(chatDetails.profileUrl)
+                    : null,
                 // maxRadius: 20,
               ),
             ),
