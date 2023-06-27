@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/chat_details.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
@@ -79,11 +78,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(right: 8),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
               child: CircleAvatar(
-                foregroundImage: NetworkImage(
-                    '$serverBaseUrl/images/profiles/tumor (1112).jpg'),
+                foregroundImage: NetworkImage(chatDetails.profileUrl),
                 // maxRadius: 20,
               ),
             ),

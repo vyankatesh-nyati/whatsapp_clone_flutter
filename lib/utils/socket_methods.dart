@@ -38,13 +38,15 @@ class SocketMethods {
       "isSeen": isSeen,
     });
     final recieverDetails = ref.read(chatDetailsProvider);
-    ref.read(chatListProvider.notifier).updateChatList(ChatListItemModel(
-          userId: recieverDetails.id,
-          name: recieverDetails.name,
-          profileUrl: '$serverBaseUrl/images/profiles/tumor (1112).jpg',
-          text: text,
-          timesent: timesent,
-        ));
+    ref.read(chatListProvider.notifier).updateChatList(
+          ChatListItemModel(
+            userId: recieverDetails.id,
+            name: recieverDetails.name,
+            profileUrl: recieverDetails.profileUrl,
+            text: text,
+            timesent: timesent,
+          ),
+        );
   }
 
   sendMessageWithId() {
@@ -65,7 +67,7 @@ class SocketMethods {
       ref.read(chatListProvider.notifier).updateChatList(ChatListItemModel(
             userId: message.senderId,
             name: data["name"],
-            profileUrl: '$serverBaseUrl/images/profiles/tumor (1112).jpg',
+            profileUrl: data["profileUrl"],
             text: message.text,
             timesent: message.timesent,
           ));
