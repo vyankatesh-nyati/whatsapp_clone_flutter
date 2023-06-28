@@ -45,16 +45,6 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         .loadChatDetails(id: widget.uid, context: context);
   }
 
-  void addDetails(WidgetRef ref) {
-    ref.read(chatDetailsProvider.notifier).updateChatDetails(ChatDetailsModel(
-          id: "id",
-          name: "name",
-          profileUrl: "profileUrl",
-          isOnline: true,
-          chatList: [],
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
     final ChatDetailsModel chatDetails = ref.watch(chatDetailsProvider);
@@ -116,9 +106,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             color: appBarTextColor,
           ),
           IconButton(
-            onPressed: () {
-              addDetails(ref);
-            },
+            onPressed: () {},
             icon: const Icon(Icons.call),
             color: appBarTextColor,
           ),

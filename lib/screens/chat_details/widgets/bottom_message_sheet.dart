@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
+import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
 
@@ -25,20 +28,37 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
   }
 
   void sendMessage() {
-    final String text = _messageEdiitingController.text;
-    final timesent = DateFormat.Hm().format(DateTime.now());
+    if (showSendButton) {
+      final String text = _messageEdiitingController.text;
+      final timesent = DateFormat.Hm().format(DateTime.now());
 
-    ref.read(chatDetailsControllerProvider).sendTextMessage(
-          timesent: timesent,
-          text: text,
-          type: MessageEnum.text,
-          context: context,
-        );
+      ref.read(chatDetailsControllerProvider).sendTextMessage(
+            timesent: timesent,
+            text: text,
+            type: MessageEnum.text,
+            context: context,
+          );
 
-    _messageEdiitingController.clear();
-    setState(() {
-      showSendButton = false;
-    });
+      _messageEdiitingController.clear();
+      setState(() {
+        showSendButton = false;
+      });
+    }
+  }
+
+  void sendImage() async {
+    File? pickedFile = await pickImageFormGallery(context);
+    if (pickedFile != null) {
+      final timesent = DateFormat.Hm().format(DateTime.now());
+      if (context.mounted) {
+        ref.read(chatDetailsControllerProvider).sendFileMessage(
+              timesent: timesent,
+              chatImage: pickedFile,
+              type: MessageEnum.image,
+              context: context,
+            );
+      }
+    }
   }
 
   @override
@@ -81,8 +101,9 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
                     color: appBarTextColor,
                   ),
                   const SizedBox(width: 10),
-                  Icon(
-                    Icons.camera_alt,
+                  IconButton(
+                    onPressed: sendImage,
+                    icon: const Icon(Icons.camera_alt),
                     color: appBarTextColor,
                   ),
                   const SizedBox(width: 20),

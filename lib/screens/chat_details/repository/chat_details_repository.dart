@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:uuid/uuid.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/chat_details.dart';
@@ -85,6 +88,73 @@ class ChatDetailsRepository {
               name: recieverDetails.name,
               profileUrl: recieverDetails.profileUrl,
               text: text,
+              timesent: timesent,
+              type: type,
+            ),
+          );
+
+      ref
+          .read(chatDetailsProvider.notifier)
+          .addMessage(MessageModel.fromMap(result));
+    } catch (err) {
+      showSnackbar(context: context, content: err.toString());
+    }
+  }
+
+  void sendFileMessage({
+    required ProviderRef ref,
+    required String timesent,
+    required File chatImage,
+    required MessageEnum type,
+    required BuildContext context,
+  }) async {
+    final url = Uri.parse('$serverUrl/send-file-message');
+    final token = ref.read(tokenProvider);
+    final chatDetails = ref.read(chatDetailsProvider);
+    final userDetails = ref.read(userProvider);
+    try {
+      var uuid = const Uuid();
+      final fileId = uuid.v1();
+      final request = http.MultipartRequest("POST", url);
+      Map<String, String> headers = {
+        "Content-type": "multipart/form-data",
+        "Authorization": token!,
+      };
+
+      request.files.add(
+        http.MultipartFile(
+          'chatImage',
+          chatImage.readAsBytes().asStream(),
+          chatImage.lengthSync(),
+          filename:
+              "${type.type}_${userDetails!.id}_${chatDetails.id}_$fileId.jpeg",
+          contentType: MediaType('application', 'x-tar'),
+        ),
+      );
+      request.headers.addAll(headers);
+      request.fields.addAll({
+        "senderId": userDetails.id,
+        "receiverId": chatDetails.id,
+        "timesent": timesent,
+        "isSeen": false.toString(),
+        "type": type.type,
+      });
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      Map<String, dynamic> result = json.decode(response.body);
+
+      if (result["error"] != null) {
+        throw result["error"];
+      }
+
+      final recieverDetails = ref.read(chatDetailsProvider);
+      ref.read(chatListProvider.notifier).updateChatList(
+            ChatListItemModel(
+              userId: recieverDetails.id,
+              name: recieverDetails.name,
+              profileUrl: recieverDetails.profileUrl,
+              text: result["text"],
               timesent: timesent,
               type: type,
             ),

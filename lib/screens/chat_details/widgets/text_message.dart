@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/display_message.dart';
 
 class TextMessage extends ConsumerWidget {
   const TextMessage({
@@ -34,17 +36,22 @@ class TextMessage extends ConsumerWidget {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 26,
-                  top: 8,
-                  bottom: 22,
-                ),
-                child: Text(
-                  messageData.text,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
+                padding: messageData.type != MessageEnum.image
+                    ? const EdgeInsets.only(
+                        left: 16,
+                        right: 26,
+                        top: 8,
+                        bottom: 22,
+                      )
+                    : const EdgeInsets.only(
+                        left: 8,
+                        right: 8,
+                        top: 8,
+                        bottom: 25,
+                      ),
+                child: DisplayMessage(
+                  text: messageData.text,
+                  type: messageData.type,
                 ),
               ),
               Positioned(
