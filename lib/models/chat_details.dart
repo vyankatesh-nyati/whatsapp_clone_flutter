@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:whatsapp_clone_flutter/models/message.dart';
 
 class ChatDetailsModel {
@@ -41,9 +38,4 @@ class ChatDetailsModel {
       ),
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory ChatDetailsModel.fromJson(String source) =>
-      ChatDetailsModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

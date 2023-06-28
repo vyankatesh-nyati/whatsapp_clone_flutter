@@ -77,7 +77,7 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
                   ),
                   const SizedBox(width: 10),
                   Icon(
-                    Icons.currency_rupee_outlined,
+                    Icons.gif,
                     color: appBarTextColor,
                   ),
                   const SizedBox(width: 10),

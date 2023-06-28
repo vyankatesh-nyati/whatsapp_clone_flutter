@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class ChatListItemModel {
   final String userId;
   final String name;
@@ -35,9 +32,4 @@ class ChatListItemModel {
       text: map['text'] as String,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory ChatListItemModel.fromJson(String source) =>
-      ChatListItemModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

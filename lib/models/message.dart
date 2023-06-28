@@ -1,5 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
+import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 
 class MessageModel {
   final String id;
@@ -8,6 +7,7 @@ class MessageModel {
   final String text;
   final String timesent;
   final bool isSeen;
+  final MessageEnum type;
 
   MessageModel({
     required this.id,
@@ -16,6 +16,7 @@ class MessageModel {
     required this.text,
     required this.timesent,
     required this.isSeen,
+    required this.type,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +27,7 @@ class MessageModel {
       'text': text,
       'timesent': timesent,
       'isSeen': isSeen,
+      'type': type.type,
     };
   }
 
@@ -37,11 +39,7 @@ class MessageModel {
       text: map['text'] as String,
       timesent: map['timesent'] as String,
       isSeen: map['isSeen'] as bool,
+      type: (map['type'] as String).toEnum(),
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory MessageModel.fromJson(String source) =>
-      MessageModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
