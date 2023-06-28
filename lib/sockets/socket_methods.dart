@@ -4,7 +4,7 @@ import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_list_provider.dart';
-import 'package:whatsapp_clone_flutter/common/sockets/socket.dart';
+import 'package:whatsapp_clone_flutter/sockets/socket.dart';
 
 final socketsProvider = Provider((ref) => SocketMethods(ref: ref));
 
@@ -30,14 +30,16 @@ class SocketMethods {
       if (id == message.senderId) {
         ref.read(chatDetailsProvider.notifier).addMessage(message);
       }
-      ref.read(chatListProvider.notifier).updateChatList(ChatListItemModel(
-            userId: message.senderId,
-            name: data["name"],
-            profileUrl: data["profileUrl"],
-            text: message.text,
-            timesent: message.timesent,
-          ));
-      // print("Workinf");
+      ref.read(chatListProvider.notifier).updateChatList(
+            ChatListItemModel(
+              userId: message.senderId,
+              name: data["name"],
+              profileUrl: data["profileUrl"],
+              text: message.text,
+              timesent: message.timesent,
+              type: message.type,
+            ),
+          );
     });
   }
 

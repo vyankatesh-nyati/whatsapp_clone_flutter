@@ -86,6 +86,7 @@ class ChatDetailsRepository {
               profileUrl: recieverDetails.profileUrl,
               text: text,
               timesent: timesent,
+              type: type,
             ),
           );
 

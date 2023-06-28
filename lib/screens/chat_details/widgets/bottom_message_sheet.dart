@@ -72,7 +72,7 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    Icons.attach_file,
+                    Icons.video_camera_back,
                     color: appBarTextColor,
                   ),
                   const SizedBox(width: 10),

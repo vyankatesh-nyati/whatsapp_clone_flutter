@@ -1,9 +1,12 @@
+import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
+
 class ChatListItemModel {
   final String userId;
   final String name;
   final String profileUrl;
   final String timesent;
   final String text;
+  final MessageEnum type;
 
   ChatListItemModel({
     required this.userId,
@@ -11,6 +14,7 @@ class ChatListItemModel {
     required this.profileUrl,
     required this.timesent,
     required this.text,
+    required this.type,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +24,7 @@ class ChatListItemModel {
       'profileUrl': profileUrl,
       'timesent': timesent,
       'text': text,
+      'type': type.type,
     };
   }
 
@@ -30,6 +35,7 @@ class ChatListItemModel {
       profileUrl: map['profileUrl'] as String,
       timesent: map['timesent'] as String,
       text: map['text'] as String,
+      type: (map['type'] as String).toEnum(),
     );
   }
 }
