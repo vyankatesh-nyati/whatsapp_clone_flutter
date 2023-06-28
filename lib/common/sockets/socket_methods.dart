@@ -22,39 +22,6 @@ class SocketMethods {
     });
   }
 
-  sendMessage({
-    required String senderId,
-    required String receiverId,
-    required String text,
-    required String timesent,
-    required bool isSeen,
-  }) {
-    _socketClient.emit("send-message", {
-      "senderId": senderId,
-      "receiverId": receiverId,
-      "text": text,
-      "timesent": timesent,
-      "isSeen": isSeen,
-    });
-    final recieverDetails = ref.read(chatDetailsProvider);
-    ref.read(chatListProvider.notifier).updateChatList(
-          ChatListItemModel(
-            userId: recieverDetails.id,
-            name: recieverDetails.name,
-            profileUrl: recieverDetails.profileUrl,
-            text: text,
-            timesent: timesent,
-          ),
-        );
-  }
-
-  sendMessageWithId() {
-    _socketClient.on("send-message-received", (data) {
-      final message = MessageModel.fromMap(data);
-      ref.read(chatDetailsProvider.notifier).addMessage(message);
-    });
-  }
-
   recievedMessage() {
     _socketClient.on("received-message", (data) {
       // print(data);

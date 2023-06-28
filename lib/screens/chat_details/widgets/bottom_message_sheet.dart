@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
-import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
-import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
-import 'package:whatsapp_clone_flutter/common/sockets/socket_methods.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
 
 class BottomMessageSheet extends ConsumerStatefulWidget {
   const BottomMessageSheet({super.key});
@@ -27,19 +26,14 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
 
   void sendMessage() {
     final String text = _messageEdiitingController.text;
-    final String senderId = ref.read(userProvider)!.id;
-    final String receiverId = ref.read(chatDetailsProvider).id;
     final timesent = DateFormat.Hm().format(DateTime.now());
 
-    ref.read(socketsProvider).sendMessage(
-          isSeen: false,
-          receiverId: receiverId,
-          senderId: senderId,
-          text: text,
+    ref.read(chatDetailsControllerProvider).sendTextMessage(
           timesent: timesent,
+          text: text,
+          type: MessageEnum.text,
+          context: context,
         );
-
-    // ref.read(chatDetailsProvider.notifier).addMessage(message);
 
     _messageEdiitingController.clear();
     setState(() {
