@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/video_player.dart';
 
 class DisplayMessage extends StatelessWidget {
   const DisplayMessage({
@@ -28,7 +29,8 @@ class DisplayMessage extends StatelessWidget {
           width: 250,
           fit: BoxFit.cover,
         );
-      // print(text);
+      case MessageEnum.video:
+        return VideoPlayer(videoUrl: text);
       default:
         return Text(
           text,

@@ -36,7 +36,7 @@ class TextMessage extends ConsumerWidget {
           child: Stack(
             children: [
               Padding(
-                padding: messageData.type != MessageEnum.image
+                padding: messageData.type == MessageEnum.text
                     ? const EdgeInsets.only(
                         left: 16,
                         right: 26,
