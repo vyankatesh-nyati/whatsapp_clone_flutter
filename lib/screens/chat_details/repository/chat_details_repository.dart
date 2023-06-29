@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:uuid/uuid.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/chat_details.dart';
@@ -113,8 +112,6 @@ class ChatDetailsRepository {
     final chatDetails = ref.read(chatDetailsProvider);
     final userDetails = ref.read(userProvider);
     try {
-      var uuid = const Uuid();
-      final fileId = uuid.v1();
       final request = http.MultipartRequest("POST", url);
       Map<String, String> headers = {
         "Content-type": "multipart/form-data",
@@ -126,8 +123,7 @@ class ChatDetailsRepository {
           'chatImage',
           chatImage.readAsBytes().asStream(),
           chatImage.lengthSync(),
-          filename:
-              "${type.type}_${userDetails!.id}_${chatDetails.id}_$fileId.jpeg",
+          filename: "${type.type}_${userDetails!.id}_${chatDetails.id}",
           contentType: MediaType('application', 'x-tar'),
         ),
       );
@@ -154,7 +150,7 @@ class ChatDetailsRepository {
               userId: recieverDetails.id,
               name: recieverDetails.name,
               profileUrl: recieverDetails.profileUrl,
-              text: '📷 image',
+              text: '📷 ${type.type}',
               timesent: timesent,
               type: type,
             ),

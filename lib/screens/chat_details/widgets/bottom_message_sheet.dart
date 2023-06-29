@@ -61,6 +61,21 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
     }
   }
 
+  void sendVideo() async {
+    File? pickedVideo = await pickVideoFromGallery(context);
+    if (pickedVideo != null) {
+      final timesent = DateFormat.Hm().format(DateTime.now());
+      if (context.mounted) {
+        ref.read(chatDetailsControllerProvider).sendFileMessage(
+              timesent: timesent,
+              chatImage: pickedVideo,
+              type: MessageEnum.video,
+              context: context,
+            );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -91,8 +106,9 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
               suffixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.video_camera_back,
+                  IconButton(
+                    onPressed: sendVideo,
+                    icon: const Icon(Icons.video_camera_back),
                     color: appBarTextColor,
                   ),
                   const SizedBox(width: 10),

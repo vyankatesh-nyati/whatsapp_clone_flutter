@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 
@@ -22,11 +23,12 @@ class DisplayMessage extends StatelessWidget {
           ),
         );
       case MessageEnum.image:
-        return Image.network(
-          text,
+        return CachedNetworkImage(
+          imageUrl: text,
           width: 250,
           fit: BoxFit.cover,
         );
+      // print(text);
       default:
         return Text(
           text,
