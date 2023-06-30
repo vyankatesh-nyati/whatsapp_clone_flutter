@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -18,8 +19,9 @@ class BottomMessageSheet extends ConsumerStatefulWidget {
 class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
   final TextEditingController _messageEdiitingController =
       TextEditingController();
-
+  FocusNode _keyBoardNode = FocusNode();
   bool showSendButton = false;
+  bool _isShowEmojiPicker = false;
 
   @override
   void dispose() {
@@ -78,70 +80,112 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          child: TextField(
-            controller: _messageEdiitingController,
-            onChanged: (value) {
-              if (value.trim().isEmpty) {
-                setState(() {
-                  showSendButton = false;
-                });
-              } else {
-                setState(() {
-                  showSendButton = true;
-                });
-              }
-            },
-            maxLines: 1,
-            decoration: InputDecoration(
-              hintText: "Message",
-              filled: true,
-              fillColor: mobileChatBoxColor,
-              prefixIcon: Icon(
-                Icons.emoji_emotions,
-                color: appBarTextColor,
-              ),
-              suffixIcon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    onPressed: sendVideo,
-                    icon: const Icon(Icons.video_camera_back),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _messageEdiitingController,
+                focusNode: _keyBoardNode,
+                onTap: () {
+                  setState(() {
+                    _isShowEmojiPicker = false;
+                  });
+                },
+                onChanged: (value) {
+                  if (value.trim().isEmpty) {
+                    setState(() {
+                      showSendButton = false;
+                    });
+                  } else {
+                    setState(() {
+                      showSendButton = true;
+                    });
+                  }
+                },
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: "Message",
+                  filled: true,
+                  fillColor: mobileChatBoxColor,
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.emoji_emotions),
+                    onPressed: () {
+                      if (_isShowEmojiPicker) {
+                        setState(() {
+                          _isShowEmojiPicker = !_isShowEmojiPicker;
+                          _keyBoardNode.requestFocus();
+                        });
+                      } else {
+                        setState(() {
+                          _isShowEmojiPicker = !_isShowEmojiPicker;
+                          _keyBoardNode.unfocus();
+                        });
+                      }
+                    },
                     color: appBarTextColor,
                   ),
-                  const SizedBox(width: 10),
-                  Icon(
-                    Icons.gif,
-                    color: appBarTextColor,
+                  suffixIcon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: sendVideo,
+                        icon: const Icon(Icons.video_camera_back),
+                        color: appBarTextColor,
+                      ),
+                      const SizedBox(width: 10),
+                      Icon(
+                        Icons.gif,
+                        color: appBarTextColor,
+                      ),
+                      const SizedBox(width: 10),
+                      IconButton(
+                        onPressed: sendImage,
+                        icon: const Icon(Icons.camera_alt),
+                        color: appBarTextColor,
+                      ),
+                      const SizedBox(width: 20),
+                    ],
                   ),
-                  const SizedBox(width: 10),
-                  IconButton(
-                    onPressed: sendImage,
-                    icon: const Icon(Icons.camera_alt),
-                    color: appBarTextColor,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                    borderSide: BorderSide.none,
                   ),
-                  const SizedBox(width: 20),
-                ],
-              ),
-              border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(50),
                 ),
-                borderSide: BorderSide.none,
               ),
             ),
-          ),
+            CircleAvatar(
+              backgroundColor: tabColor,
+              radius: 28,
+              child: IconButton(
+                onPressed: sendMessage,
+                icon: Icon(showSendButton ? Icons.send : Icons.mic),
+              ),
+            ),
+          ],
         ),
-        CircleAvatar(
-          backgroundColor: tabColor,
-          radius: 28,
-          child: IconButton(
-            onPressed: sendMessage,
-            icon: Icon(showSendButton ? Icons.send : Icons.mic),
-          ),
-        ),
+        _isShowEmojiPicker
+            ? SizedBox(
+                height: 410,
+                child: EmojiPicker(
+                  textEditingController: _messageEdiitingController,
+                  onEmojiSelected: (category, emoji) {
+                    if (_messageEdiitingController.text.trim().isEmpty) {
+                      setState(() {
+                        showSendButton = false;
+                      });
+                    } else {
+                      setState(() {
+                        showSendButton = true;
+                      });
+                    }
+                  },
+                ),
+              )
+            : const SizedBox(),
       ],
     );
   }

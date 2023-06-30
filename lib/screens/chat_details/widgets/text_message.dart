@@ -44,10 +44,10 @@ class TextMessage extends ConsumerWidget {
                         bottom: 22,
                       )
                     : const EdgeInsets.only(
-                        left: 8,
-                        right: 8,
-                        top: 8,
-                        bottom: 25,
+                        left: 7,
+                        right: 7,
+                        top: 7,
+                        bottom: 22,
                       ),
                 child: DisplayMessage(
                   text: messageData.text,
