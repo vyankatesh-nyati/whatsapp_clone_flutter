@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
@@ -19,14 +22,39 @@ class BottomMessageSheet extends ConsumerStatefulWidget {
 class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
   final TextEditingController _messageEdiitingController =
       TextEditingController();
-  FocusNode _keyBoardNode = FocusNode();
+  final FocusNode _keyBoardNode = FocusNode();
   bool showSendButton = false;
   bool _isShowEmojiPicker = false;
+  FlutterSoundRecorder? _soundRecorder;
+  bool _isInitRecorder = false;
+  bool _isRecording = false;
+
+  @override
+  void initState() {
+    super.initState();
+    openAudio();
+  }
 
   @override
   void dispose() {
     super.dispose();
     _messageEdiitingController.dispose();
+    _soundRecorder!.closeRecorder();
+    _isInitRecorder = false;
+  }
+
+  void openAudio() async {
+    _soundRecorder = FlutterSoundRecorder();
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      if (context.mounted) {
+        showSnackbar(
+            context: context, content: "Mic permission is not allowed");
+      }
+    } else {
+      await _soundRecorder!.openRecorder();
+      _isInitRecorder = true;
+    }
   }
 
   void sendMessage() {
@@ -45,6 +73,10 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
       setState(() {
         showSendButton = false;
       });
+    } else {
+      if (!_isInitRecorder) {
+        return;
+      }
     }
   }
 
@@ -76,6 +108,32 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
             );
       }
     }
+  }
+
+  void sendAudio() async {
+    if (!_isInitRecorder) {
+      return;
+    }
+    final Directory tempDir = await getTemporaryDirectory();
+    final path = '${tempDir.path}/flutter_sound.aac';
+
+    if (_isRecording) {
+      await _soundRecorder!.stopRecorder();
+      final timesent = DateFormat.Hm().format(DateTime.now());
+      if (context.mounted) {
+        ref.read(chatDetailsControllerProvider).sendFileMessage(
+              timesent: timesent,
+              chatImage: File(path),
+              type: MessageEnum.audio,
+              context: context,
+            );
+      }
+    } else {
+      await _soundRecorder!.startRecorder(toFile: path);
+    }
+    setState(() {
+      _isRecording = !_isRecording;
+    });
   }
 
   @override
@@ -134,11 +192,11 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
                         icon: const Icon(Icons.video_camera_back),
                         color: appBarTextColor,
                       ),
-                      const SizedBox(width: 10),
-                      Icon(
-                        Icons.gif,
-                        color: appBarTextColor,
-                      ),
+                      // const SizedBox(width: 10),
+                      // Icon(
+                      //   Icons.gif,
+                      //   color: appBarTextColor,
+                      // ),
                       const SizedBox(width: 10),
                       IconButton(
                         onPressed: sendImage,
@@ -157,19 +215,28 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
                 ),
               ),
             ),
-            CircleAvatar(
-              backgroundColor: tabColor,
-              radius: 28,
-              child: IconButton(
-                onPressed: sendMessage,
-                icon: Icon(showSendButton ? Icons.send : Icons.mic),
-              ),
-            ),
+            showSendButton
+                ? CircleAvatar(
+                    backgroundColor: tabColor,
+                    radius: 28,
+                    child: IconButton(
+                      onPressed: sendMessage,
+                      icon: const Icon(Icons.send),
+                    ),
+                  )
+                : CircleAvatar(
+                    backgroundColor: tabColor,
+                    radius: 28,
+                    child: IconButton(
+                      onPressed: sendAudio,
+                      icon: Icon(_isRecording ? Icons.close : Icons.mic),
+                    ),
+                  ),
           ],
         ),
         _isShowEmojiPicker
             ? SizedBox(
-                height: 410,
+                height: 350,
                 child: EmojiPicker(
                   textEditingController: _messageEdiitingController,
                   onEmojiSelected: (category, emoji) {

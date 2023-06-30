@@ -43,15 +43,21 @@ class TextMessage extends ConsumerWidget {
                         top: 8,
                         bottom: 22,
                       )
-                    : const EdgeInsets.only(
-                        left: 7,
-                        right: 7,
-                        top: 7,
-                        bottom: 22,
-                      ),
+                    : messageData.type == MessageEnum.audio
+                        ? const EdgeInsets.only(
+                            left: 18,
+                            right: 7,
+                            top: 7,
+                            bottom: 22,
+                          )
+                        : const EdgeInsets.only(
+                            left: 7,
+                            right: 7,
+                            top: 7,
+                            bottom: 22,
+                          ),
                 child: DisplayMessage(
-                  text: messageData.text,
-                  type: messageData.type,
+                  messageData: messageData,
                 ),
               ),
               Positioned(

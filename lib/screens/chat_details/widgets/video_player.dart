@@ -41,19 +41,25 @@ class _VideoPlayerState extends State<VideoPlayer> {
         children: [
           CachedVideoPlayer(videoController),
           Center(
-            child: IconButton(
-              icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-              onPressed: () {
-                if (isPlaying) {
-                  videoController.pause();
-                } else {
-                  videoController.play();
-                  videoController.initialize();
-                }
-                setState(() {
-                  isPlaying = !isPlaying;
-                });
-              },
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              child: IconButton(
+                icon: Icon(
+                  isPlaying ? Icons.pause : Icons.play_arrow,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  if (isPlaying) {
+                    videoController.pause();
+                  } else {
+                    videoController.play();
+                    videoController.initialize();
+                  }
+                  setState(() {
+                    isPlaying = !isPlaying;
+                  });
+                },
+              ),
             ),
           )
         ],
