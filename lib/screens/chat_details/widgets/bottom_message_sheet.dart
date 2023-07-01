@@ -145,6 +145,7 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               child: Column(

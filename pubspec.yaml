@@ -49,6 +49,7 @@ dependencies:
   permission_handler: ^10.4.0
   flutter_sound: ^9.2.13
   path_provider: ^2.0.15
+  swipe_to: ^1.0.2
 
 dev_dependencies:
   flutter_test:

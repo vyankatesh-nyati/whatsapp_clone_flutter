@@ -150,7 +150,7 @@ class ChatDetailsRepository {
               userId: recieverDetails.id,
               name: recieverDetails.name,
               profileUrl: recieverDetails.profileUrl,
-              text: '📷 ${type.type}',
+              text: type.message,
               timesent: timesent,
               type: type,
             ),
