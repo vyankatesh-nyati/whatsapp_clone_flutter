@@ -10,6 +10,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/models/message_reply.dart';
+import 'package:whatsapp_clone_flutter/providers/message_reply_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/reply_preview.dart';
 
@@ -139,6 +141,7 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
 
   @override
   Widget build(BuildContext context) {
+    MessageReplyModel? messageReply = ref.watch(messageReplyProvider);
     return Column(
       children: [
         Row(
@@ -148,15 +151,15 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
                 children: [
                   const ReplyPreview(),
                   Container(
-                    decoration: const BoxDecoration(
-                      borderRadius:
-                          // BorderRadius.all(
-                          //   Radius.circular(25),
-                          // ),
-                          BorderRadius.only(
-                        bottomLeft: Radius.circular(25),
-                        bottomRight: Radius.circular(25),
-                      ),
+                    decoration: BoxDecoration(
+                      borderRadius: messageReply == null
+                          ? const BorderRadius.all(
+                              Radius.circular(25),
+                            )
+                          : const BorderRadius.only(
+                              bottomLeft: Radius.circular(25),
+                              bottomRight: Radius.circular(25),
+                            ),
                       color: mobileChatBoxColor,
                     ),
                     child: TextField(
