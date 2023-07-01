@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/models/message_reply.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
@@ -43,18 +44,19 @@ class ReplyPreview extends ConsumerWidget {
         child: Stack(
           children: [
             Row(
+              // mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
-                  width: 6,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      bottomLeft: Radius.circular(15),
-                    ),
-                    color: Colors.deepPurple[300],
-                  ),
-                ),
-                const SizedBox(width: 10),
+                // Container(
+                //   width: 6,
+                //   decoration: BoxDecoration(
+                //     borderRadius: const BorderRadius.only(
+                //       topLeft: Radius.circular(15),
+                //       bottomLeft: Radius.circular(15),
+                //     ),
+                //     color: Colors.deepPurple[300],
+                //   ),
+                // ),
+                const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,7 +74,9 @@ class ReplyPreview extends ConsumerWidget {
                         maxWidth: MediaQuery.of(context).size.width * 0.7,
                       ),
                       child: Text(
-                        messageReply.replyText,
+                        messageReply.messageType == MessageEnum.text
+                            ? messageReply.replyText
+                            : messageReply.messageType.message,
                         style: TextStyle(
                           color: appBarTextColor,
                         ),
