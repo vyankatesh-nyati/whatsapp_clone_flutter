@@ -11,6 +11,7 @@ import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/reply_preview.dart';
 
 class BottomMessageSheet extends ConsumerStatefulWidget {
   const BottomMessageSheet({super.key});
@@ -143,76 +144,94 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
         Row(
           children: [
             Expanded(
-              child: TextField(
-                controller: _messageEdiitingController,
-                focusNode: _keyBoardNode,
-                onTap: () {
-                  setState(() {
-                    _isShowEmojiPicker = false;
-                  });
-                },
-                onChanged: (value) {
-                  if (value.trim().isEmpty) {
-                    setState(() {
-                      showSendButton = false;
-                    });
-                  } else {
-                    setState(() {
-                      showSendButton = true;
-                    });
-                  }
-                },
-                maxLines: 1,
-                decoration: InputDecoration(
-                  hintText: "Message",
-                  filled: true,
-                  fillColor: mobileChatBoxColor,
-                  prefixIcon: IconButton(
-                    icon: const Icon(Icons.emoji_emotions),
-                    onPressed: () {
-                      if (_isShowEmojiPicker) {
-                        setState(() {
-                          _isShowEmojiPicker = !_isShowEmojiPicker;
-                          _keyBoardNode.requestFocus();
-                        });
-                      } else {
-                        setState(() {
-                          _isShowEmojiPicker = !_isShowEmojiPicker;
-                          _keyBoardNode.unfocus();
-                        });
-                      }
-                    },
-                    color: appBarTextColor,
-                  ),
-                  suffixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: sendVideo,
-                        icon: const Icon(Icons.video_camera_back),
-                        color: appBarTextColor,
+              child: Column(
+                children: [
+                  const ReplyPreview(),
+                  Container(
+                    decoration: const BoxDecoration(
+                      borderRadius:
+                          // BorderRadius.all(
+                          //   Radius.circular(25),
+                          // ),
+                          BorderRadius.only(
+                        bottomLeft: Radius.circular(25),
+                        bottomRight: Radius.circular(25),
                       ),
-                      // const SizedBox(width: 10),
-                      // Icon(
-                      //   Icons.gif,
-                      //   color: appBarTextColor,
-                      // ),
-                      const SizedBox(width: 10),
-                      IconButton(
-                        onPressed: sendImage,
-                        icon: const Icon(Icons.camera_alt),
-                        color: appBarTextColor,
-                      ),
-                      const SizedBox(width: 20),
-                    ],
-                  ),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
+                      color: mobileChatBoxColor,
                     ),
-                    borderSide: BorderSide.none,
+                    child: TextField(
+                      controller: _messageEdiitingController,
+                      focusNode: _keyBoardNode,
+                      onTap: () {
+                        setState(() {
+                          _isShowEmojiPicker = false;
+                        });
+                      },
+                      onChanged: (value) {
+                        if (value.trim().isEmpty) {
+                          setState(() {
+                            showSendButton = false;
+                          });
+                        } else {
+                          setState(() {
+                            showSendButton = true;
+                          });
+                        }
+                      },
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: "Message",
+                        filled: true,
+                        fillColor: mobileChatBoxColor,
+                        prefixIcon: IconButton(
+                          icon: const Icon(Icons.emoji_emotions),
+                          onPressed: () {
+                            if (_isShowEmojiPicker) {
+                              setState(() {
+                                _isShowEmojiPicker = !_isShowEmojiPicker;
+                                _keyBoardNode.requestFocus();
+                              });
+                            } else {
+                              setState(() {
+                                _isShowEmojiPicker = !_isShowEmojiPicker;
+                                _keyBoardNode.unfocus();
+                              });
+                            }
+                          },
+                          color: appBarTextColor,
+                        ),
+                        suffixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: sendVideo,
+                              icon: const Icon(Icons.video_camera_back),
+                              color: appBarTextColor,
+                            ),
+                            // const SizedBox(width: 10),
+                            // Icon(
+                            //   Icons.gif,
+                            //   color: appBarTextColor,
+                            // ),
+                            const SizedBox(width: 10),
+                            IconButton(
+                              onPressed: sendImage,
+                              icon: const Icon(Icons.camera_alt),
+                              color: appBarTextColor,
+                            ),
+                            const SizedBox(width: 20),
+                          ],
+                        ),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             showSendButton
