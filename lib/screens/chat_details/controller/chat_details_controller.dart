@@ -62,4 +62,19 @@ class ChatDetailsController {
       context: context,
     );
   }
+
+  void seenMessage({
+    required BuildContext context,
+    required String senderId,
+    required String receiverId,
+    required String messageId,
+  }) {
+    return chatDetailsRepository.seenMessage(
+      context: context,
+      ref: ref,
+      senderId: senderId,
+      receiverId: receiverId,
+      messageId: messageId,
+    );
+  }
 }

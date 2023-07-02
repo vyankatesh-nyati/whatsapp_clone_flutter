@@ -171,4 +171,35 @@ class ChatDetailsRepository {
       showSnackbar(context: context, content: err.toString());
     }
   }
+
+  void seenMessage({
+    required BuildContext context,
+    required ProviderRef ref,
+    required String senderId,
+    required String receiverId,
+    required String messageId,
+  }) async {
+    final url = Uri.parse('$serverUrl/seen-message');
+    final token = ref.read(tokenProvider);
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token!,
+        },
+        body: json.encode({
+          "senderId": senderId,
+          "receiverId": receiverId,
+          "messageId": messageId,
+        }),
+      );
+      Map<String, dynamic> result = json.decode(response.body);
+      if (result["error"] != null) {
+        throw result["error"];
+      }
+    } catch (err) {
+      showSnackbar(context: context, content: err.toString());
+    }
+  }
 }

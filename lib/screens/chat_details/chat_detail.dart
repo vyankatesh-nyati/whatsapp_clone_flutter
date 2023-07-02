@@ -3,7 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/models/chat_details.dart';
+import 'package:whatsapp_clone_flutter/models/message.dart';
+import 'package:whatsapp_clone_flutter/models/user.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
+import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/controller/chat_details_controller.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/bottom_message_sheet.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/text_message.dart';
@@ -48,6 +51,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final ChatDetailsModel chatDetails = ref.watch(chatDetailsProvider);
+    final UserModel? userDetails = ref.watch(userProvider);
     Widget bodyContent = const Center(child: CircularProgressIndicator());
     if (chatDetails.id != '') {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -57,9 +61,21 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         controller: messageController,
         padding: const EdgeInsets.only(top: 12),
         itemCount: chatDetails.chatList.length,
-        itemBuilder: (context, index) => TextMessage(
-          messageData: chatDetails.chatList[index],
-        ),
+        itemBuilder: (context, index) {
+          final MessageModel messageData = chatDetails.chatList[index];
+          if (!messageData.isSeen &&
+              messageData.receiverId == userDetails!.id) {
+            ref.read(chatDetailsControllerProvider).seenMessage(
+                  context: context,
+                  senderId: messageData.senderId,
+                  receiverId: messageData.receiverId,
+                  messageId: messageData.id,
+                );
+          }
+          return TextMessage(
+            messageData: messageData,
+          );
+        },
       );
     }
     return Scaffold(
