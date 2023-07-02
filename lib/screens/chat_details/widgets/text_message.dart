@@ -8,6 +8,7 @@ import 'package:whatsapp_clone_flutter/models/message_reply.dart';
 import 'package:whatsapp_clone_flutter/providers/message_reply_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/display_message.dart';
+import 'package:whatsapp_clone_flutter/screens/chat_details/widgets/show_reply_message.dart';
 
 class TextMessage extends ConsumerWidget {
   const TextMessage({
@@ -51,12 +52,19 @@ class TextMessage extends ConsumerWidget {
               children: [
                 Padding(
                   padding: messageData.type == MessageEnum.text
-                      ? const EdgeInsets.only(
-                          left: 16,
-                          right: 26,
-                          top: 8,
-                          bottom: 22,
-                        )
+                      ? (messageData.replyText == ''
+                          ? EdgeInsets.only(
+                              left: messageData.text.length <= 5 ? 24 : 8,
+                              right: messageData.text.length <= 5 ? 35 : 20,
+                              top: 2,
+                              bottom: 22,
+                            )
+                          : const EdgeInsets.only(
+                              left: 10,
+                              right: 20,
+                              top: 8,
+                              bottom: 22,
+                            ))
                       : messageData.type == MessageEnum.audio
                           ? const EdgeInsets.only(
                               left: 18,
@@ -70,8 +78,19 @@ class TextMessage extends ConsumerWidget {
                               top: 7,
                               bottom: 22,
                             ),
-                  child: DisplayMessage(
-                    messageData: messageData,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (messageData.replyText != '')
+                        ShowReplyMessage(
+                          messageData: messageData,
+                        ),
+                      const SizedBox(height: 6),
+                      DisplayMessage(
+                        messageData: messageData,
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(

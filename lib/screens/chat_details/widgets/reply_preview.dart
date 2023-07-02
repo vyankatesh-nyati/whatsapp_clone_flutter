@@ -13,7 +13,7 @@ class ReplyPreview extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MessageReplyModel? messageReply = ref.watch(messageReplyProvider);
-    String _id = ref.watch(userProvider)!.id;
+    String id = ref.watch(userProvider)!.id;
     String chatName = ref.watch(chatDetailsProvider).name;
 
     if (messageReply == null) {
@@ -62,11 +62,16 @@ class ReplyPreview extends ConsumerWidget {
                   children: [
                     const SizedBox(height: 10),
                     Text(
-                      messageReply.userIdToReply == _id ? "You" : chatName,
-                      style: TextStyle(
-                        color: Colors.deepPurple[200],
-                        fontSize: 15,
-                      ),
+                      messageReply.userIdToReply == id ? "You" : chatName,
+                      style: messageReply.userIdToReply == id
+                          ? const TextStyle(
+                              color: Color.fromRGBO(7, 123, 125, 1),
+                              fontSize: 15,
+                            )
+                          : TextStyle(
+                              color: Colors.deepPurple[200],
+                              fontSize: 15,
+                            ),
                     ),
                     const SizedBox(height: 3),
                     ConstrainedBox(
