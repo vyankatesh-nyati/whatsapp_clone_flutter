@@ -12,6 +12,7 @@ import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_list_provider.dart';
+import 'package:whatsapp_clone_flutter/providers/message_reply_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
@@ -60,6 +61,7 @@ class ChatDetailsRepository {
     final token = ref.read(tokenProvider);
     final chatDetails = ref.read(chatDetailsProvider);
     final userDetails = ref.read(userProvider);
+    final replyMessage = ref.read(messageReplyProvider);
     try {
       final response = await http.post(
         url,
@@ -74,6 +76,11 @@ class ChatDetailsRepository {
           "isSeen": false,
           "text": text,
           "type": type.type,
+          'replyText': replyMessage == null ? '' : replyMessage.replyText,
+          'messageSenderIdToReply':
+              replyMessage == null ? '' : replyMessage.userIdToReply,
+          'replyMessageType':
+              replyMessage == null ? 'text' : replyMessage.messageType.type,
         }),
       );
       Map<String, dynamic> result = json.decode(response.body);
@@ -98,6 +105,7 @@ class ChatDetailsRepository {
     } catch (err) {
       showSnackbar(context: context, content: err.toString());
     }
+    ref.read(messageReplyProvider.notifier).removeMessageReply();
   }
 
   void sendFileMessage({

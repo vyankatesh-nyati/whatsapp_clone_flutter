@@ -8,6 +8,9 @@ class MessageModel {
   final String timesent;
   final bool isSeen;
   final MessageEnum type;
+  final String replyText;
+  final String messageSenderIdToReply;
+  final MessageEnum replyMessageType;
 
   MessageModel({
     required this.id,
@@ -17,6 +20,9 @@ class MessageModel {
     required this.timesent,
     required this.isSeen,
     required this.type,
+    required this.replyText,
+    required this.messageSenderIdToReply,
+    required this.replyMessageType,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,6 +34,9 @@ class MessageModel {
       'timesent': timesent,
       'isSeen': isSeen,
       'type': type.type,
+      'replyText': replyText,
+      'messageSenderIdToReply': messageSenderIdToReply,
+      'replyMessageType': replyMessageType.type,
     };
   }
 
@@ -40,6 +49,9 @@ class MessageModel {
       timesent: map['timesent'] as String,
       isSeen: map['isSeen'] as bool,
       type: (map['type'] as String).toEnum(),
+      replyText: map['replyText'] as String,
+      messageSenderIdToReply: map['messageSenderIdToReply'] as String,
+      replyMessageType: (map['replyMessageType'] as String).toEnum(),
     );
   }
 }
