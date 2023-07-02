@@ -51,4 +51,13 @@ class SocketMethods {
       }
     });
   }
+
+  seenMessage() {
+    _socketClient.on("seen-message", (data) {
+      final chatDetails = ref.read(chatDetailsProvider);
+      if (chatDetails.id == data["receiverId"]) {
+        ref.read(chatDetailsProvider.notifier).seenMessage(data["messageId"]);
+      }
+    });
+  }
 }

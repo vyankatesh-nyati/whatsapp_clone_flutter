@@ -36,6 +36,34 @@ class ChatDetailsNotifier extends StateNotifier<ChatDetailsModel> {
     );
   }
 
+  void seenMessage(String messageId) {
+    final chatList = state.chatList.map((chat) {
+      if (chat.id == messageId) {
+        return MessageModel(
+          id: chat.id,
+          senderId: chat.senderId,
+          receiverId: chat.receiverId,
+          text: chat.text,
+          timesent: chat.timesent,
+          isSeen: true,
+          type: chat.type,
+          replyText: chat.replyText,
+          messageSenderIdToReply: chat.messageSenderIdToReply,
+          replyMessageType: chat.replyMessageType,
+        );
+      }
+      return chat;
+    }).toList();
+
+    state = ChatDetailsModel(
+      id: state.id,
+      name: state.name,
+      profileUrl: state.profileUrl,
+      isOnline: state.isOnline,
+      chatList: chatList,
+    );
+  }
+
   bool resetChatDetails() {
     state = ChatDetailsModel(
       id: '',
