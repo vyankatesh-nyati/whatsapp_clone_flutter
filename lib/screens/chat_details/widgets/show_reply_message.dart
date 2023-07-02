@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
@@ -49,7 +50,11 @@ class ShowReplyMessage extends ConsumerWidget {
                   ),
                 ),
           const SizedBox(height: 2),
-          Text(messageData.replyText),
+          Text(
+            messageData.replyMessageType == MessageEnum.text
+                ? messageData.replyText
+                : messageData.replyMessageType.message,
+          ),
         ],
       ),
     );
