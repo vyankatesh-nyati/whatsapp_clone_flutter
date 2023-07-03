@@ -16,7 +16,7 @@ class ChatListRepository {
     ProviderRef ref,
     BuildContext context,
   ) async {
-    final url = Uri.parse('$serverUrl/contact-list');
+    final url = Uri.parse('$serverUrl/contact/contact-list');
     final token = ref.read(tokenProvider);
 
     try {

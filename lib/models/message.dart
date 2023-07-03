@@ -49,8 +49,8 @@ class MessageModel {
       timesent: map['timesent'] as String,
       isSeen: map['isSeen'] as bool,
       type: (map['type'] as String).toEnum(),
-      replyText: map['replyText'] as String,
-      messageSenderIdToReply: map['messageSenderIdToReply'] as String,
+      replyText: map['replyText'] ?? '',
+      messageSenderIdToReply: map['messageSenderIdToReply'] ?? '',
       replyMessageType: (map['replyMessageType'] as String).toEnum(),
     );
   }

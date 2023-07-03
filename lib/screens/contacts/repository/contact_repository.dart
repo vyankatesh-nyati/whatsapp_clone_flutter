@@ -27,7 +27,7 @@ final class ContactRepository {
 
   void chatWithSelectedContact(
       BuildContext context, ProviderRef ref, Contact contact) async {
-    final url = Uri.parse('$serverUrl//contact/is-exists');
+    final url = Uri.parse('$serverUrl/contact/is-exists');
     final token = ref.watch(tokenProvider);
     try {
       final response = await http.post(

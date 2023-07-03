@@ -26,7 +26,7 @@ class ChatDetailsRepository {
     required BuildContext context,
     required ProviderRef ref,
   }) async {
-    final url = Uri.parse('$serverUrl/chat-details/$id');
+    final url = Uri.parse('$serverUrl/chat/chat-details/$id');
     final token = ref.read(tokenProvider);
     try {
       final response = await http.get(
@@ -57,7 +57,7 @@ class ChatDetailsRepository {
     required MessageEnum type,
     required BuildContext context,
   }) async {
-    final url = Uri.parse('$serverUrl/send-text-message');
+    final url = Uri.parse('$serverUrl/chat/send-text-message');
     final token = ref.read(tokenProvider);
     final chatDetails = ref.read(chatDetailsProvider);
     final userDetails = ref.read(userProvider);
@@ -115,10 +115,11 @@ class ChatDetailsRepository {
     required MessageEnum type,
     required BuildContext context,
   }) async {
-    final url = Uri.parse('$serverUrl/send-file-message');
+    final url = Uri.parse('$serverUrl/chat/send-file-message');
     final token = ref.read(tokenProvider);
     final chatDetails = ref.read(chatDetailsProvider);
     final userDetails = ref.read(userProvider);
+    final replyMessage = ref.read(messageReplyProvider);
     try {
       final request = http.MultipartRequest("POST", url);
       Map<String, String> headers = {
@@ -142,6 +143,11 @@ class ChatDetailsRepository {
         "timesent": timesent,
         "isSeen": false.toString(),
         "type": type.type,
+        'replyText': replyMessage == null ? '' : replyMessage.replyText,
+        'messageSenderIdToReply':
+            replyMessage == null ? '' : replyMessage.userIdToReply,
+        'replyMessageType':
+            replyMessage == null ? 'text' : replyMessage.messageType.type,
       });
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
@@ -170,6 +176,7 @@ class ChatDetailsRepository {
     } catch (err) {
       showSnackbar(context: context, content: err.toString());
     }
+    ref.read(messageReplyProvider.notifier).removeMessageReply();
   }
 
   void seenMessage({
@@ -179,7 +186,7 @@ class ChatDetailsRepository {
     required String receiverId,
     required String messageId,
   }) async {
-    final url = Uri.parse('$serverUrl/seen-message');
+    final url = Uri.parse('$serverUrl/chat/seen-message');
     final token = ref.read(tokenProvider);
     try {
       final response = await http.post(

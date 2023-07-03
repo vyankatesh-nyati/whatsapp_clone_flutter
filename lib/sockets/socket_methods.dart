@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
 import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 
 import 'package:whatsapp_clone_flutter/models/message.dart';
@@ -24,7 +25,6 @@ class SocketMethods {
 
   recievedMessage() {
     _socketClient.on("received-message", (data) {
-      // print(data);
       final id = ref.read(chatDetailsProvider).id;
       final message = MessageModel.fromMap(data);
       if (id == message.senderId) {
@@ -35,7 +35,9 @@ class SocketMethods {
               userId: message.senderId,
               name: data["name"],
               profileUrl: data["profileUrl"],
-              text: message.text,
+              text: message.type == MessageEnum.text
+                  ? message.text
+                  : message.type.message,
               timesent: message.timesent,
               type: message.type,
             ),
