@@ -44,6 +44,7 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
     _messageEdiitingController.dispose();
     _soundRecorder!.closeRecorder();
     _isInitRecorder = false;
+    _keyBoardNode.dispose();
   }
 
   void openAudio() async {
@@ -212,11 +213,6 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
                               icon: const Icon(Icons.video_camera_back),
                               color: appBarTextColor,
                             ),
-                            // const SizedBox(width: 10),
-                            // Icon(
-                            //   Icons.gif,
-                            //   color: appBarTextColor,
-                            // ),
                             const SizedBox(width: 10),
                             IconButton(
                               onPressed: sendImage,
@@ -261,6 +257,9 @@ class _BottomMessageSheetState extends ConsumerState<BottomMessageSheet> {
             ? SizedBox(
                 height: 350,
                 child: EmojiPicker(
+                  config: Config(
+                    bgColor: Colors.black.withOpacity(0.9),
+                  ),
                   textEditingController: _messageEdiitingController,
                   onEmojiSelected: (category, emoji) {
                     if (_messageEdiitingController.text.trim().isEmpty) {

@@ -5,6 +5,7 @@ import 'package:whatsapp_clone_flutter/screens/contacts/contacts.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/details.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/login.dart';
 import 'package:whatsapp_clone_flutter/common/widgets/error.dart';
+import 'package:whatsapp_clone_flutter/screens/status/text_status.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -31,6 +32,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => ChatDetailScreen(
           uid: arguments["id"]!,
         ),
+      );
+    case TextStatusScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const TextStatusScreen(),
       );
     default:
       return MaterialPageRoute(

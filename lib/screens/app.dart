@@ -6,7 +6,7 @@ import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/controller/auth_controller.dart';
 import 'package:whatsapp_clone_flutter/screens/calls.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_list/chat.dart';
-import 'package:whatsapp_clone_flutter/screens/status.dart';
+import 'package:whatsapp_clone_flutter/screens/status/status.dart';
 import 'package:whatsapp_clone_flutter/sockets/socket_methods.dart';
 
 class AppScreen extends ConsumerStatefulWidget {
