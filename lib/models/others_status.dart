@@ -1,38 +1,38 @@
 import 'package:whatsapp_clone_flutter/models/status.dart';
 
-class UserModel {
+class OthersStatusModel {
   final String id;
-  final String phoneNumber;
+  final String userId;
   final String name;
   final String profileUrl;
-  final List<StatusModel> myStatusList;
+  final List<StatusModel> statusList;
 
-  UserModel({
+  OthersStatusModel({
     required this.id,
-    required this.phoneNumber,
+    required this.userId,
     required this.name,
     required this.profileUrl,
-    required this.myStatusList,
+    required this.statusList,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'phoneNumber': phoneNumber,
+      'userId': userId,
       'name': name,
       'profileUrl': profileUrl,
-      'myStatusList': myStatusList.map((x) => x.toMap()).toList(),
+      'statusList': statusList.map((x) => x.toMap()).toList(),
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      id: map['_id'] as String,
-      phoneNumber: map['phoneNumber'] as String,
+  factory OthersStatusModel.fromMap(Map<String, dynamic> map) {
+    return OthersStatusModel(
+      id: map['id'] as String,
+      userId: map['userId'] as String,
       name: map['name'] as String,
       profileUrl: map['profileUrl'] as String,
-      myStatusList: List<StatusModel>.from(
-        (map['myStatusList'] as List<dynamic>).map<StatusModel>(
+      statusList: List<StatusModel>.from(
+        (map['statusList'] as List<int>).map<StatusModel>(
           (x) => StatusModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
