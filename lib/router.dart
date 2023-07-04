@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone_flutter/screens/app.dart';
 import 'package:whatsapp_clone_flutter/screens/chat_details/chat_detail.dart';
@@ -5,6 +7,7 @@ import 'package:whatsapp_clone_flutter/screens/contacts/contacts.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/details.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/login.dart';
 import 'package:whatsapp_clone_flutter/common/widgets/error.dart';
+import 'package:whatsapp_clone_flutter/screens/status/check_uploaded_file.dart';
 import 'package:whatsapp_clone_flutter/screens/status/text_status.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -36,6 +39,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case TextStatusScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const TextStatusScreen(),
+      );
+    case CheckUploadedFileScreen.routeName:
+      final arguments = settings.arguments as File;
+      return MaterialPageRoute(
+        builder: (context) => CheckUploadedFileScreen(pickedFile: arguments),
       );
     default:
       return MaterialPageRoute(

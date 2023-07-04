@@ -36,7 +36,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 16 / 9,
+      aspectRatio: videoController.value.aspectRatio,
       child: Stack(
         children: [
           CachedVideoPlayer(videoController),
