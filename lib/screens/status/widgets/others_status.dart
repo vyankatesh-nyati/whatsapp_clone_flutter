@@ -43,10 +43,9 @@ class OthersStatus extends ConsumerWidget {
               leading: DottedBorder(
                 borderType: BorderType.Circle,
                 color: tabColor,
-                dashPattern: [
-                  125.6 / othersStatusList[index].statusList.length,
-                  3
-                ],
+                dashPattern: othersStatusList[index].statusList.length == 1
+                    ? [200]
+                    : [125.6 / othersStatusList[index].statusList.length, 3],
                 strokeWidth: 2,
                 child: CircleAvatar(
                   radius: 20,

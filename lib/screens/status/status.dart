@@ -46,7 +46,7 @@ class StatusScreen extends StatelessWidget {
               ),
             ),
           ),
-          OthersStatus(),
+          const OthersStatus(),
         ],
       ),
       floatingActionButton: Column(

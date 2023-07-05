@@ -49,7 +49,9 @@ class MyStatus extends ConsumerWidget {
           : DottedBorder(
               borderType: BorderType.Circle,
               color: tabColor,
-              dashPattern: [125.6 / userDetails.myStatusList.length, 3],
+              dashPattern: userDetails.myStatusList.length == 1
+                  ? [200]
+                  : [125.6 / userDetails.myStatusList.length, 3],
               strokeWidth: 2,
               child: CircleAvatar(
                 radius: 20,
