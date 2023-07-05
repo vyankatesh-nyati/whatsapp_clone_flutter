@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone_flutter/common/dummy_data/status.dart';
 import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/screens/status/check_uploaded_file.dart';
@@ -33,7 +32,7 @@ class StatusScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          MyStatus(myStatusList: dummyMyStatusList),
+          const MyStatus(),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -47,9 +46,7 @@ class StatusScreen extends StatelessWidget {
               ),
             ),
           ),
-          OthersStatus(
-            othersStatusList: dummyOthersStatusList,
-          ),
+          OthersStatus(),
         ],
       ),
       floatingActionButton: Column(

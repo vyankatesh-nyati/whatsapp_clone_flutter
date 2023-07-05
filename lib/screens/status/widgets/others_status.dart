@@ -1,19 +1,22 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/models/others_status.dart';
+import 'package:whatsapp_clone_flutter/providers/others_status_list_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/status/view_story.dart';
 
-class OthersStatus extends StatelessWidget {
+class OthersStatus extends ConsumerWidget {
   const OthersStatus({
     super.key,
-    required this.othersStatusList,
   });
-  final List<OthersStatusModel> othersStatusList;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<OthersStatusModel> othersStatusList =
+        ref.watch(othersStatusListProvider);
+
     return Expanded(
       child: ListView.builder(
         itemCount: othersStatusList.length,

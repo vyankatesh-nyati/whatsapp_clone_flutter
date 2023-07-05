@@ -42,7 +42,7 @@ class StatusModel {
       id: map['_id'] as String,
       title: map['title'] as String,
       backgroundColor: map['backgroundColor'] as int,
-      fontSize: map['fontSize'] as double,
+      fontSize: (map['fontSize']).toDouble(),
       url: map['url'] as String,
       caption: map['caption'] as String,
       isSeen: map['isSeen'] as bool,

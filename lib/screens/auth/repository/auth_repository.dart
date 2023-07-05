@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:http/http.dart' as http;
+import 'package:whatsapp_clone_flutter/models/others_status.dart';
 import 'package:whatsapp_clone_flutter/models/user.dart';
+import 'package:whatsapp_clone_flutter/providers/others_status_list_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
 import 'package:whatsapp_clone_flutter/screens/auth/details.dart';
@@ -167,6 +169,13 @@ class AuthRepository {
         if (result["data"] != null) {
           user = UserModel.fromMap(result["data"]);
           ref.read(userProvider.notifier).addUser(user);
+          List<OthersStatusModel> othersStatusList =
+              (result["data"]["othersStatusList"] as List<dynamic>)
+                  .map((e) => OthersStatusModel.fromMap(e))
+                  .toList();
+          ref
+              .read(othersStatusListProvider.notifier)
+              .addOthersStatusList(othersStatusList);
         } else {
           return null;
         }

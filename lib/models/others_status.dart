@@ -27,12 +27,12 @@ class OthersStatusModel {
 
   factory OthersStatusModel.fromMap(Map<String, dynamic> map) {
     return OthersStatusModel(
-      id: map['id'] as String,
+      id: map['_id'] as String,
       userId: map['userId'] as String,
       name: map['name'] as String,
       profileUrl: map['profileUrl'] as String,
       statusList: List<StatusModel>.from(
-        (map['statusList'] as List<int>).map<StatusModel>(
+        (map['statusList'] as List<dynamic>).map<StatusModel>(
           (x) => StatusModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
