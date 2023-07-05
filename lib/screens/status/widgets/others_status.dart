@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
 import 'package:whatsapp_clone_flutter/models/others_status.dart';
+import 'package:whatsapp_clone_flutter/screens/status/view_story.dart';
 
 class OthersStatus extends StatelessWidget {
   const OthersStatus({
@@ -30,6 +31,12 @@ class OthersStatus extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: ListTile(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  ViewStoryScreen.routeName,
+                  arguments: othersStatusList[index],
+                );
+              },
               leading: DottedBorder(
                 borderType: BorderType.Circle,
                 color: tabColor,

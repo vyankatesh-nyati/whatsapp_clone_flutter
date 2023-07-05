@@ -2,8 +2,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/models/others_status.dart';
 import 'package:whatsapp_clone_flutter/models/status.dart';
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
+import 'package:whatsapp_clone_flutter/screens/status/view_story.dart';
 
 class MyStatus extends ConsumerWidget {
   const MyStatus({
@@ -17,6 +19,18 @@ class MyStatus extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userDetails = ref.watch(userProvider);
     return ListTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          ViewStoryScreen.routeName,
+          arguments: OthersStatusModel(
+            id: userDetails.id,
+            userId: userDetails.id,
+            name: "My status",
+            profileUrl: userDetails.profileUrl,
+            statusList: myStatusList,
+          ),
+        );
+      },
       leading: myStatusList.isEmpty
           ? CircleAvatar(
               radius: 22,
