@@ -1,18 +1,21 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:whatsapp_clone_flutter/common/enums/status_enum.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/screens/status/controller/status_controller.dart';
 
-class TextStatusScreen extends StatefulWidget {
+class TextStatusScreen extends ConsumerStatefulWidget {
   static const routeName = '/text-status';
   const TextStatusScreen({super.key});
 
   @override
-  State<TextStatusScreen> createState() => _TextStatusScreenState();
+  ConsumerState<TextStatusScreen> createState() => _TextStatusScreenState();
 }
 
-class _TextStatusScreenState extends State<TextStatusScreen> {
+class _TextStatusScreenState extends ConsumerState<TextStatusScreen> {
   int backgroundColor = Colors.blue.value;
   double _value = 34;
   final TextEditingController _statusController = TextEditingController();
@@ -55,6 +58,21 @@ class _TextStatusScreenState extends State<TextStatusScreen> {
         );
       },
     );
+  }
+
+  void uploadTextStatus() {
+    if (_statusController.text.trim().isEmpty) {
+      return;
+    }
+    ref.read(statusControllerProvider).addNewStatus(
+          context: context,
+          title: _statusController.text.trim(),
+          backgroundColor: backgroundColor,
+          fontSize: _value,
+          caption: " ",
+          isSeen: false,
+          statusType: StatusEnum.text,
+        );
   }
 
   @override
@@ -163,7 +181,7 @@ class _TextStatusScreenState extends State<TextStatusScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: uploadTextStatus,
           shape: const CircleBorder(),
           backgroundColor: tabColor,
           child: const Icon(Icons.send),
