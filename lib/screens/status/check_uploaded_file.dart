@@ -4,9 +4,12 @@ import 'dart:io';
 import 'package:cached_video_player/cached_video_player.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp_clone_flutter/common/enums/status_enum.dart';
 import 'package:whatsapp_clone_flutter/config/colors.dart';
+import 'package:whatsapp_clone_flutter/screens/status/controller/status_controller.dart';
 
-class CheckUploadedFileScreen extends StatefulWidget {
+class CheckUploadedFileScreen extends ConsumerStatefulWidget {
   static const routeName = '/check-uploaded-file';
 
   const CheckUploadedFileScreen({
@@ -17,11 +20,12 @@ class CheckUploadedFileScreen extends StatefulWidget {
   final File pickedFile;
 
   @override
-  State<CheckUploadedFileScreen> createState() =>
+  ConsumerState<CheckUploadedFileScreen> createState() =>
       _CheckUploadedFileScreenState();
 }
 
-class _CheckUploadedFileScreenState extends State<CheckUploadedFileScreen> {
+class _CheckUploadedFileScreenState
+    extends ConsumerState<CheckUploadedFileScreen> {
   late int fileTypeLastIndex;
   late String fileType;
   late CachedVideoPlayerController videoController;
@@ -51,6 +55,23 @@ class _CheckUploadedFileScreenState extends State<CheckUploadedFileScreen> {
     super.dispose();
     videoController.dispose();
     _captionEditiongController.dispose();
+  }
+
+  void uploadImageVideoStatus() {
+    StatusEnum statusType = StatusEnum.video;
+    if (fileType == "jpg" || fileType == "png" || fileType == "jpeg") {
+      statusType = StatusEnum.image;
+    }
+    ref.read(statusControllerProvider).addNewStatus(
+          context: context,
+          title: "",
+          backgroundColor: Colors.blue.value,
+          fontSize: 34,
+          caption: _captionEditiongController.text.trim(),
+          isSeen: false,
+          statusType: statusType,
+          statusFile: widget.pickedFile,
+        );
   }
 
   @override
@@ -137,7 +158,7 @@ class _CheckUploadedFileScreenState extends State<CheckUploadedFileScreen> {
                         backgroundColor: tabColor,
                         radius: 28,
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: uploadImageVideoStatus,
                           icon: const Icon(Icons.send),
                         ),
                       )
