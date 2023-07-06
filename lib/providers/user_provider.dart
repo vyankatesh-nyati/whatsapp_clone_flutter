@@ -20,6 +20,35 @@ class UserNotifier extends StateNotifier<UserModel?> {
       );
     }
   }
+
+  void seenStatus(String statusId, bool isSeen) {
+    if (state == null) {
+      return;
+    }
+    final List<StatusModel> myStatusList = state!.myStatusList.map((element) {
+      if (element.id == statusId) {
+        return StatusModel(
+          id: element.id,
+          title: element.title,
+          backgroundColor: element.backgroundColor,
+          fontSize: element.fontSize,
+          url: element.url,
+          caption: element.caption,
+          isSeen: isSeen,
+          statusType: element.statusType,
+          createdAt: element.createdAt,
+        );
+      }
+      return element;
+    }).toList();
+    state = UserModel(
+      id: state!.id,
+      phoneNumber: state!.phoneNumber,
+      name: state!.name,
+      profileUrl: state!.profileUrl,
+      myStatusList: myStatusList,
+    );
+  }
 }
 
 final userProvider =

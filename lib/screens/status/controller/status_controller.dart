@@ -55,4 +55,19 @@ class StatusController {
       );
     });
   }
+
+  void seenStatus({
+    required BuildContext context,
+    required String statusId,
+    required bool isSeen,
+    required String othersId,
+  }) {
+    return statusRepository.seenStatus(
+      context: context,
+      ref: ref,
+      statusId: statusId,
+      isSeen: isSeen,
+      othersId: othersId,
+    );
+  }
 }

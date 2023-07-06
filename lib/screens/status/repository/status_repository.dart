@@ -8,6 +8,7 @@ import 'package:whatsapp_clone_flutter/common/enums/status_enum.dart';
 import 'package:whatsapp_clone_flutter/common/utils/utils.dart';
 import 'package:whatsapp_clone_flutter/config/server.dart';
 import 'package:whatsapp_clone_flutter/models/status.dart';
+import 'package:whatsapp_clone_flutter/providers/others_status_list_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/token_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:whatsapp_clone_flutter/providers/user_provider.dart';
@@ -69,6 +70,45 @@ class StatusRepository {
           .addNewStatus(StatusModel.fromMap(result["data"]));
       if (context.mounted) {
         Navigator.of(context).pop();
+      }
+    } catch (err) {
+      showSnackbar(context: context, content: err.toString());
+    }
+  }
+
+  void seenStatus({
+    required BuildContext context,
+    required ProviderRef ref,
+    required String statusId,
+    required bool isSeen,
+    required String othersId,
+  }) async {
+    final url = Uri.parse('$serverUrl/status/seen-status');
+    final token = ref.read(tokenProvider);
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+        body: json.encode({
+          "statusId": statusId,
+          "isSeen": isSeen,
+          "othersId": othersId,
+        }),
+      );
+
+      Map<String, dynamic> result = json.decode(response.body);
+      if (result["error"] != null) {
+        throw result["error"];
+      }
+      if (othersId == "") {
+        ref.read(userProvider.notifier).seenStatus(statusId, isSeen);
+      } else {
+        ref
+            .read(othersStatusListProvider.notifier)
+            .seenStatus(statusId, isSeen, othersId);
       }
     } catch (err) {
       showSnackbar(context: context, content: err.toString());

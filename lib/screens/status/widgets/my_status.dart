@@ -24,7 +24,7 @@ class MyStatus extends ConsumerWidget {
             ViewStoryScreen.routeName,
             arguments: OthersStatusModel(
               id: userDetails.id,
-              userId: userDetails.id,
+              userId: "",
               name: "My status",
               profileUrl: userDetails.profileUrl,
               statusList: userDetails.myStatusList,
