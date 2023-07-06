@@ -34,6 +34,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     ref.read(socketsProvider).recievedMessage();
     ref.read(socketsProvider).statusChange();
     ref.read(socketsProvider).seenMessage();
+    ref.read(socketsProvider).receivedNewStatus();
     super.initState();
   }
 

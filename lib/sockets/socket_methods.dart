@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone_flutter/common/enums/message_enum.dart';
+import 'package:whatsapp_clone_flutter/common/enums/status_enum.dart';
 import 'package:whatsapp_clone_flutter/models/chat_list_item.dart';
 
 import 'package:whatsapp_clone_flutter/models/message.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_details_provider.dart';
 import 'package:whatsapp_clone_flutter/providers/chat_list_provider.dart';
+import 'package:whatsapp_clone_flutter/providers/others_status_list_provider.dart';
 import 'package:whatsapp_clone_flutter/sockets/socket.dart';
 
 final socketsProvider = Provider((ref) => SocketMethods(ref: ref));
@@ -61,5 +63,28 @@ class SocketMethods {
         ref.read(chatDetailsProvider.notifier).seenMessage(data["messageId"]);
       }
     });
+  }
+
+  receivedNewStatus() {
+    _socketClient.on(
+      "added-status",
+      (data) {
+        // print(data);
+        ref.read(othersStatusListProvider.notifier).addNewOthersStatus(
+              userId: data["userId"],
+              name: data["name"],
+              profileUrl: data["profileUrl"],
+              statusId: data["_id"],
+              title: data["title"],
+              backgroundColor: data["backgroundColor"],
+              fontSize: data["fontSize"].toDouble(),
+              url: data["url"],
+              caption: data["caption"],
+              isSeen: data["isSeen"],
+              statusType: (data["statusType"] as String).toStatusEnum(),
+              createdAt: data["createdAt"],
+            );
+      },
+    );
   }
 }
